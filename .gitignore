@@ -104,4 +104,6 @@ venv.bak/
 # koala settings
 koala-config.json
 
+settings.py
+
 migrations/
