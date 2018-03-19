@@ -104,6 +104,10 @@ venv.bak/
 # koala settings
 koala-config.json
 
-settings.py
-
+# remove migration files
 migrations/
+
+# remove settings.py (avoid expose our api keys to public)
+/parand/settings.py
+
+.idea/
