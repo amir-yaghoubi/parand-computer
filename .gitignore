@@ -103,3 +103,5 @@ venv.bak/
 
 # koala settings
 koala-config.json
+
+migrations/
