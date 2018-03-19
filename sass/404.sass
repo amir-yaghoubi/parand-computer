@@ -1,0 +1,48 @@
+@import 'variables'
+@import 'fonts'
+@import "utils"
+
+$errorColor: #ef5350
+
+body
+  direction: rtl
+  font-family: $koodak-font
+  background: $background-color
+
+
+.error-container
+  padding: 10px 48px
+  text-align: center
+  max-width: 560px
+  margin: auto
+  border: 8px $errorColor dashed
+  background: lighten($errorColor, 32%)
+  color: $errorColor
+  h1 h2
+    margin: auto !important
+    background: #a41515
+
+  .error-icon
+    font-size: 102px
+
+.error-button
+  padding: 8px 12px
+
+
+a
+  border-radius: 4px
+  font-size: 18px
+  padding: 8px 12px
+  background: $errorColor
+  color: $text-color
+  text-decoration: none
+
+  +transition-fix(background, 200ms)
+
+  &:hover
+    background: $text-color
+    color: $errorColor
+    text-decoration: none
+
+  &:visited
+    text-decoration: none

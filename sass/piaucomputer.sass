@@ -1,0 +1,138 @@
+@import "fonts"
+@import "mainPage/header"
+@import "variables"
+@import "utils"
+
+main
+  font-family: $koodak-font
+  .container
+    position: relative
+    z-index: 2
+    top: -$header-bottom
+  .row
+    justify-content: center
+
+.group-background
+  background: $background-color
+
+
+.my-card
+  box-shadow: 0px 2px 4px #777
+  border: 0px solid transparent
+  border-radius: 2px
+  color: $primary-text-color
+  margin-bottom: -$header-bottom + 36px
+  background: #fff
+  padding-top: 12px
+
+  .group-header
+    font-size: 24px
+    padding: 12px 24px
+    font-family: $yekan-font
+    background: $theme-color
+    box-shadow: 0px 1px 2px #777777
+    color: $text-color
+    border: none
+    border-radius: 0px
+
+  .group-empty
+    border: 5px $secondary-text dashed
+    padding: 24px
+    font-size: 1.3em
+    text-align: center
+    color: $secondary-text
+
+.group-special
+  font-size: 1.3em
+  text-align: center
+  a
+    padding: 4px 8px
+    color: $primary-text-color
+    border-radius: 3px
+    &:hover
+      text-decoration: none
+      background-color: lighten($theme-color, 60%)
+
+  ul
+    padding-right: 0px
+
+    > li
+      list-style-type: none
+      margin-bottom: 12px
+      margin-top: 12px
+
+
+.group-table 
+  thead > tr > th
+    border-top: none
+    border-bottom: none
+    background: lighten($theme-color, 65%)
+    i 
+      // padding for table icons
+      padding-left: 4px
+  
+  tbody > tr > td
+    border-top: none
+    border-bottom: 2px $secondary-text dashed
+  
+  tbody > tr:hover
+    background: lighten($theme-color, 70%)
+
+#github-section
+  padding: 48px $h-text-r-pad
+
+  p
+    font-size: 1.3em
+    text-align: justify
+
+#github-icon
+  font-size: 8em
+  text-align-last: end
+  
+#donate-section
+  padding: 48px $h-text-r-pad
+  background-color: #FFECB3
+  h2
+    text-align: center
+  p
+    text-align: justify
+    font-size: 1.3em
+
+.donate-btn-container
+  text-align: center
+
+.btn-donate
+  border: 2px #FF6F00 solid
+  border-radius: 2px
+  padding: 2px 24px
+  font-size: 1.3em
+  color: #FF6F00
+
+  &:hover
+    background-color: #FF6F00
+    text-decoration: none
+    color: $text-color
+
+
+footer
+  background: darken($theme-color, 5%)
+  padding-top: 36px
+  font-family: $koodak-font
+  font-size: 1.1em
+  h5
+    font-family: $yekan-font
+    font-size: 1.3em
+    color: $text-color
+  ul
+    padding-right: 0px
+    padding-left: 24px
+
+.iconed > i
+  margin-left: 4px
+
+
+#license
+  text-align: center
+  font-size: 0.9em
+  color: lighten($theme-color, 65%)
+  padding: 10px 0px

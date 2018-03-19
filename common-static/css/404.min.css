@@ -1,0 +1,58 @@
+@font-face {
+  font-family: "BYekan";
+  src: url("../fonts/BYekan.eot");
+  src: url("../fonts/BYekan.eot?iefix") format("embedded-opentype"), url("../fonts/BYekan.woff") format("woff"), url("../fonts/BYekan.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: "BKoodak";
+  src: url("../fonts/BKoodakBold.eot");
+  src: url("../fonts/BKoodakBold.eot?iefix") format("embedded-opentype"), url("../fonts/BKoodakBold.woff") format("woff"), url("../fonts/BKoodakBold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: "BElham";
+  src: url("../fonts/BElham.eot");
+  src: url("../fonts/BElham.eot?iefix") format("embedded-opentype"), url("../fonts/BElham.woff") format("woff"), url("../fonts/BElham.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+body {
+  direction: rtl;
+  font-family: "BKoodak", Arial, Helvetica, sans-serif;
+  background: #F3F3F3; }
+
+.error-container {
+  padding: 10px 48px;
+  text-align: center;
+  max-width: 560px;
+  margin: auto;
+  border: 8px #ef5350 dashed;
+  background: #fde6e6;
+  color: #ef5350; }
+  .error-container h1 h2 {
+    margin: auto !important;
+    background: #a41515; }
+  .error-container .error-icon {
+    font-size: 102px; }
+
+.error-button {
+  padding: 8px 12px; }
+
+a {
+  border-radius: 4px;
+  font-size: 18px;
+  padding: 8px 12px;
+  background: #ef5350;
+  color: #fff;
+  text-decoration: none;
+  transition: background 200ms;
+  -moz-transition: background 200ms;
+  -webkit-transition: background 200ms; }
+  a:hover {
+    background: #fff;
+    color: #ef5350;
+    text-decoration: none; }
+  a:visited {
+    text-decoration: none; }
+
+/*# sourceMappingURL=404.min.css.map */

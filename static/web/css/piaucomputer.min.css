@@ -1,0 +1,206 @@
+@font-face {
+  font-family: "BYekan";
+  src: url("../fonts/BYekan.eot");
+  src: url("../fonts/BYekan.eot?iefix") format("embedded-opentype"), url("../fonts/BYekan.woff") format("woff"), url("../fonts/BYekan.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: "BKoodak";
+  src: url("../fonts/BKoodakBold.eot");
+  src: url("../fonts/BKoodakBold.eot?iefix") format("embedded-opentype"), url("../fonts/BKoodakBold.woff") format("woff"), url("../fonts/BKoodakBold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: "BElham";
+  src: url("../fonts/BElham.eot");
+  src: url("../fonts/BElham.eot?iefix") format("embedded-opentype"), url("../fonts/BElham.woff") format("woff"), url("../fonts/BElham.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+.header {
+  background: url("../assets/header.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding-bottom: 244px;
+  height: 100%;
+  min-height: 500px; }
+
+.header-text {
+  direction: rtl;
+  text-align: right;
+  color: #fff;
+  padding-top: 46px;
+  padding-right: 46px;
+  font-family: "BKoodak", Arial, Helvetica, sans-serif; }
+  .header-text h1 {
+    margin-bottom: 24px; }
+
+.navbar {
+  background: transparent;
+  font-family: "BYekan", Arial, Helvetica, sans-serif;
+  z-index: 1; }
+  .navbar .navbar-brand {
+    font-family: "BElham", Arial, Helvetica, sans-serif;
+    font-size: 1.5em;
+    color: #fff;
+    margin-right: 0px; }
+  .navbar .navbar-brand:hover {
+    color: #fff; }
+
+.navbar-nav {
+  padding-right: 0px;
+  padding-left: 36px; }
+
+.navbar-right {
+  margin-right: auto;
+  padding-left: 0px; }
+
+.nav-item {
+  margin-left: 0px;
+  margin-right: 12px; }
+
+.nav-link {
+  color: #fff !important;
+  font-size: 1.1em;
+  border: 2px transparent solid; }
+
+.nav-link:hover {
+  border-bottom: 2px #fff dotted;
+  border-top: 2px #fff dotted; }
+
+.btn-login {
+  margin-top: 8px;
+  border: 2px #fff solid;
+  border-radius: 2px;
+  background: transparent;
+  color: #fff;
+  transition: background 300ms;
+  -moz-transition: background 300ms;
+  -webkit-transition: background 300ms; }
+
+.btn-login:hover {
+  background: #fff;
+  color: #223E49; }
+
+main {
+  font-family: "BKoodak", Arial, Helvetica, sans-serif; }
+  main .container {
+    position: relative;
+    z-index: 2;
+    top: -240px; }
+  main .row {
+    justify-content: center; }
+
+.group-background {
+  background: #F3F3F3; }
+
+.my-card {
+  box-shadow: 0px 2px 4px #777;
+  border: 0px solid transparent;
+  border-radius: 2px;
+  color: #212121;
+  margin-bottom: -204px;
+  background: #fff;
+  padding-top: 12px; }
+  .my-card .group-header {
+    font-size: 24px;
+    padding: 12px 24px;
+    font-family: "BYekan", Arial, Helvetica, sans-serif;
+    background: #223E49;
+    box-shadow: 0px 1px 2px #777777;
+    color: #fff;
+    border: none;
+    border-radius: 0px; }
+  .my-card .group-empty {
+    border: 5px #757575 dashed;
+    padding: 24px;
+    font-size: 1.3em;
+    text-align: center;
+    color: #757575; }
+
+.group-special {
+  font-size: 1.3em;
+  text-align: center; }
+  .group-special a {
+    padding: 4px 8px;
+    color: #212121;
+    border-radius: 3px; }
+    .group-special a:hover {
+      text-decoration: none;
+      background-color: #bdd6e0; }
+  .group-special ul {
+    padding-right: 0px; }
+    .group-special ul > li {
+      list-style-type: none;
+      margin-bottom: 12px;
+      margin-top: 12px; }
+
+.group-table thead > tr > th {
+  border-top: none;
+  border-bottom: none;
+  background: #cee1e8; }
+  .group-table thead > tr > th i {
+    padding-left: 4px; }
+.group-table tbody > tr > td {
+  border-top: none;
+  border-bottom: 2px #757575 dashed; }
+.group-table tbody > tr:hover {
+  background: #e0ecf0; }
+
+#github-section {
+  padding: 48px 46px; }
+  #github-section p {
+    font-size: 1.3em;
+    text-align: justify; }
+
+#github-icon {
+  font-size: 8em;
+  text-align-last: end; }
+
+#donate-section {
+  padding: 48px 46px;
+  background-color: #FFECB3; }
+  #donate-section h2 {
+    text-align: center; }
+  #donate-section p {
+    text-align: justify;
+    font-size: 1.3em; }
+
+.donate-btn-container {
+  text-align: center; }
+
+.btn-donate {
+  border: 2px #FF6F00 solid;
+  border-radius: 2px;
+  padding: 2px 24px;
+  font-size: 1.3em;
+  color: #FF6F00; }
+  .btn-donate:hover {
+    background-color: #FF6F00;
+    text-decoration: none;
+    color: #fff; }
+
+footer {
+  background: #1a2f38;
+  padding-top: 36px;
+  font-family: "BKoodak", Arial, Helvetica, sans-serif;
+  font-size: 1.1em; }
+  footer h5 {
+    font-family: "BYekan", Arial, Helvetica, sans-serif;
+    font-size: 1.3em;
+    color: #fff; }
+  footer ul {
+    padding-right: 0px;
+    padding-left: 24px; }
+
+.iconed > i {
+  margin-left: 4px; }
+
+#license {
+  text-align: center;
+  font-size: 0.9em;
+  color: #cee1e8;
+  padding: 10px 0px; }
+
+/*# sourceMappingURL=piaucomputer.min.css.map */

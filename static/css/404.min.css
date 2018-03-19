@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "BYekan";
+  src: url("../fonts/BYekan.eot");
+  src: url("../fonts/BYekan.eot?iefix") format("embedded-opentype"), url("../fonts/BYekan.woff") format("woff"), url("../fonts/BYekan.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: "BKoodak";
+  src: url("../fonts/BKoodakBold.eot");
+  src: url("../fonts/BKoodakBold.eot?iefix") format("embedded-opentype"), url("../fonts/BKoodakBold.woff") format("woff"), url("../fonts/BKoodakBold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: "BElham";
+  src: url("../fonts/BElham.eot");
+  src: url("../fonts/BElham.eot?iefix") format("embedded-opentype"), url("../fonts/BElham.woff") format("woff"), url("../fonts/BElham.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+body {
+  font-family: "BKoodak", Arial, Helvetica, sans-serif;
+  background: #F3F3F3; }
+
+.error-container {
+  padding: 24px 48px;
+  color: #757575; }
+  .error-container .error-icon {
+    font-size: 1.4em; }
+
+/*# sourceMappingURL=404.min.css.map */

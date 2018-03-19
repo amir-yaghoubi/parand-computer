@@ -1,0 +1,7 @@
+@import "variables"
+// function to add cross browser 
+// compatibilty
+=transition-fix($property, $time)
+  transition: $property $time
+  -moz-transition: $property $time
+  -webkit-transition: $property $time
