@@ -99,5 +99,7 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+/static
+
 # koala settings
 koala-config.json
