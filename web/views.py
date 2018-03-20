@@ -4,8 +4,6 @@ from telegram_bot.telegrambot import get_group_link, pin_message as pin_message_
 from telegram_bot.errors import PermissionDenied
 from .models import Group
 
-from random import randint
-
 
 def index(request):
     groups = Group.objects.order_by('-title').all()
@@ -31,7 +29,6 @@ def index(request):
     return render(request, 'web/index.html', {'groups': obj_dict})
 
 
-
 def export_group_link(request, slug):
     # Todo Query on models and find Group by slug
     group = get_object_or_404(Group, slug=slug)
@@ -48,4 +45,8 @@ def pin_msg(request):
 
 
 def about(request):
+    return render(request, 'web/index.html', {})
+
+
+def help(request):
     return render(request, 'web/index.html', {})
