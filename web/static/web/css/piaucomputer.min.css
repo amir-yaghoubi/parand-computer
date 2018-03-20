@@ -16,6 +16,12 @@
   src: url("../fonts/BElham.eot?iefix") format("embedded-opentype"), url("../fonts/BElham.woff") format("woff"), url("../fonts/BElham.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
+@font-face {
+  font-family: "Titr";
+  src: url("../fonts/BTitrTGEBold.eot");
+  src: url("../fonts/BTitrTGEBold.eot?iefix") format("embedded-opentype"), url("../fonts/BTitrTGEBold.woff") format("woff"), url("../fonts/BTitrTGEBold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
 .header {
   background: url("../assets/header.jpg");
   background-size: cover;
