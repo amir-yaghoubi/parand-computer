@@ -30,9 +30,14 @@
   direction: rtl;
   text-align: right;
   color: #fff;
-  padding-top: 46px;
-  padding-right: 46px;
-  font-family: "BKoodak", Arial, Helvetica, sans-serif; }
+  font-family: "BKoodak", Arial, Helvetica, sans-serif;
+  padding-top: 48px;
+  padding-right: 48px;
+  padding-left: 48px; }
+  @media screen and (max-width: 576px) {
+    .header-text {
+      padding-left: 16px;
+      padding-right: 16px; } }
   .header-text h1 {
     margin-bottom: 24px; }
 
@@ -49,15 +54,15 @@
     color: #fff; }
 
 .navbar-nav {
-  padding-right: 0px;
+  padding-right: 0;
   padding-left: 36px; }
 
 .navbar-right {
   margin-right: auto;
-  padding-left: 0px; }
+  padding-left: 0; }
 
 .nav-item {
-  margin-left: 0px;
+  margin-left: 0;
   margin-right: 12px; }
 
 .nav-link {
@@ -149,7 +154,7 @@ main {
   background: #e0ecf0; }
 
 #github-section {
-  padding: 48px 46px; }
+  padding: 48px; }
   #github-section p {
     font-size: 1.3em;
     text-align: justify; }
@@ -159,7 +164,7 @@ main {
   text-align-last: end; }
 
 #donate-section {
-  padding: 48px 46px;
+  padding: 48px 48px;
   background-color: #FFECB3; }
   #donate-section h2 {
     text-align: center; }
