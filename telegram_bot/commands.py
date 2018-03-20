@@ -1,14 +1,15 @@
 import logging
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
+from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from web.models import PendingGroup
-from .app_settings import BOT_ID, BOT_TOKEN
+from .app_settings import BOT_ID
+from django.shortcuts import reverse
 # set logger
 logger = logging.getLogger(__name__)
 
 
 def get_id(bot, update):
-    logger.info('chat_id:{} requested their chat id. chat type: {}'
-            .format(update.message.chat.id, update.message.chat.type))
+    logger.info('chat_id:{} requested their chat id. chat type: {}'.format(
+                    update.message.chat.id, update.message.chat.type))
 
     chat = bot.get_chat(update.message.chat_id)
     update.message.reply_text('chat_id: {0}\nchat_type: {1}'.format(chat.id, chat.type))
@@ -77,7 +78,21 @@ def start(bot, update):
 
 
 def get_help(bot, update):
-    bot.sendMessage(update.message.chat_id, text='Help!')
+    # TODO better url making i guess
+    help_url = 'http://www.{0}{1}'.format('localhost:8000', reverse('help'))
+    keyboard = [[InlineKeyboardButton('📘 مطالعه بیشتر', help_url)]]
+    keyboard_markup = InlineKeyboardMarkup(keyboard)
+
+    help_text = '''جهت اضافه شدن گروه به سایت باید مراحل زیر را انجام دهید
+    ۱- گروه را به سوپرگروه ارتقا دهید.
+    ۲- ربات تلگرام را به گروه اضافه نمایید.
+    ۳- ربات را ادمین گروه کرده و دسترسی invite users via link را به ربات بدهید
+    ۴- دستور /register را وارد نمایید تا درخواست شما ثبت گردد.
+    گروه شما بعد از تایید توسط ادمین سایت به سایت اضافه خواهد شد.
+    
+    🔴 توجه: جهت تسریع در روند ثبت حتما قبل از ارسال درخواست نام گروه را به نام درس به همراه نام استاد مربوطه تغییر دهید.'''
+
+    bot.sendMessage(update.message.chat_id, text=help_text, reply_markup=keyboard_markup)
 
 
 def error(bot, update, error):
