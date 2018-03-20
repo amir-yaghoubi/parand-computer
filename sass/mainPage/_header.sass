@@ -1,6 +1,8 @@
 @import "../variables"
 @import "../utils"
 
+$header-bottom: 240px
+
 .header
   background: url('../assets/header.jpg')
   background-size: cover
@@ -9,17 +11,21 @@
   background-attachment: fixed
 
   padding-bottom: $header-bottom + 4px
-
   height: 100%
   min-height: 500px
 
 .header-text
   direction: rtl
   text-align: right
-  color: #fff
-  padding-top: 46px
-  padding-right: $h-text-r-pad
+  color: $text-color
   font-family: $koodak-font
+  padding-top: $textPadding * 3
+  padding-right: $textPadding * 3
+  padding-left: $textPadding * 3
+
+  @media screen and (max-width: 576px)
+    padding-left: $textPadding
+    padding-right: $textPadding
   h1
     margin-bottom: 24px
 
@@ -38,16 +44,16 @@
         color: $text-color
 
 .navbar-nav
-    padding-right: 0px
+    padding-right: 0
     padding-left: 36px
 
 .navbar-right
     margin-right: auto
-    padding-left: 0px
+    padding-left: 0
 
 
 .nav-item
-    margin-left: 0px
+    margin-left: 0
     margin-right: 12px
 
 .nav-link
