@@ -1,8 +1,9 @@
-import logging
 from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
-from web.models import PendingGroup
-from .app_settings import BOT_ID
 from django.shortcuts import reverse
+from django.core.exceptions import ObjectDoesNotExist
+from .app_settings import BOT_ID
+from web.models import PendingGroup, Group
+import logging
 # set logger
 logger = logging.getLogger(__name__)
 
@@ -17,11 +18,11 @@ def get_id(bot, update):
 
 def _group_admins(bot, chat_id):
     """get bot, chat_id
-    return: tuple (boolean, user object) => (isBotAdmin, creatorUser)"""
+    return: tuple (user Object, user object) => (our_bot, creatorUser)"""
     # تمام ادمین‌های گروه رو دریافت میکنیم
     admins = bot.getChatAdministrators(chat_id)
 
-    is_admin = False
+    our_bot = None
     group_creator = None
 
     # به ازای هر ادمین موجود در گروه
@@ -29,52 +30,80 @@ def _group_admins(bot, chat_id):
         # اگر این ادمین ما بودیم
         if admin.user.id == BOT_ID:
             # یعنی ربات ما دسترسی ادمین داشته و می‌توانیم ادامه دهیم
-            is_admin = True
+            our_bot = admin
         # اگر ادمین اصلی بود
         if admin.status == 'creator':
             group_creator = admin
 
-    return is_admin, group_creator
+    return our_bot, group_creator
 
 
-def add(bot, update):
-    # در صورتی که پیام ارسالی از سوپرگروه بود
-    if update.message.chat.type == 'supergroup':
-        is_admin, group_creator = _group_admins(bot, update.message.chat_id)
+def _hit_database(model, chat_id):
+    result = None
+    try:
+        result = model.objects.get(chat_id=chat_id)
+    except ObjectDoesNotExist:
+        pass
+    return result
 
-        # اگر بات ما دسترسی ادمین نداشت
-        if not is_admin:
-            update.message.reply_text('ابتدا دسترسی ادمین به بات داده و سپس دوباره تلاش نمایید.')
-            return
 
-        chat = update.message.chat
-        exist_gp = PendingGroup.objects.filter(chat_id=chat.id).first()
-        if not exist_gp:
-            new_group = PendingGroup(title=chat.title, chat_id=chat.id,
-                                     admin_id=group_creator.user.id, admin_username=group_creator.user.username)
-            new_group.save()
-            update.message.reply_text(
-                'گروه شما در لیست انتظار قرار گرفت، بعد از تایید توسط مدیران به سایت اضافه می‌گردد.')
-        elif exist_gp.approved:
-            update.message.reply_text(
-                'گروه شما با موفقیت در سایت قرار گرفته است.')
-        else:
-            update.message.reply_text(
-                'گروه شما در انتظار تایید توسط مدیران قرار دارد، از شکیبایی شما سپاس گذاریم.')
+def register(bot, update):
+    # پاسخ گویی تنها به سوپر گروه ها
+    if update.message.chat.type != 'supergroup':
+        return
+
+    # TODO check for is active or more i think req.
+    # بررسی وجود گروه در لیست اصلی سایت
+    main_group = _hit_database(Group, update.message.chat_id)
+    # در صورتی که در لیست اصلی سایت موجود باشه پیغام مربوطه ارسال میکنیم و روند ثبت گروه جدید رو متوقف میکنیم
+    if main_group is not None:
+        update.message.reply_text('گروه شما در لیست گروه‌های تایید شده سایت قرار دارد و نیازی به ثبت مجدد نمی‌باشد.')
+        return
+
+    # بررسی وجود گروه در لیست انتظار سایت
+    # در صورتی که گروه در لیست انتظار سایت قرار داشت پیغام مربوطه را ارسال میکنیم و از ادامه فرایند ثبت باز میگردیم.
+    pending_group = _hit_database(PendingGroup, update.message.chat_id)
+    if pending_group is not None:
+        update.message.reply_text(
+            'گروه شما در انتظار تایید توسط مدیران قرار دارد، از شکیبایی شما سپاس گذاریم.')
+        return
+
+    # در صورتی که تا این قسمت پیش آمده باشیم یعنی گروه باید فرایند ثبت نام را انجام دهد
+    # بررسی دسترسی ادمین به بات
+    # ثبت گروه در لیست انتظار
+
+    our_bot, group_creator = _group_admins(bot, update.message.chat_id)
+    # اگر بات ما دسترسی ادمین نداشت پیغام خطا و توقف فرایند
+    if our_bot is None:
+        update.message.reply_text('''لطفا ربات تلگرامی ما را ادمین نمایید و دسترسی‌های های خواسته شده را به ربات بدهید.
+        دسترسی invite users via link''')
+        return
+
+    # اگه بات ما دسترسی به لینک گروه نداشت پیغام خطا و توقف فرایند
+    if not our_bot.can_invite_users:
+        update.message.reply_text('دسترسی invite users via link برای ربات فراهم نیست، بعد از فراهم کردن این دسترسی مجددا تلاش نمایید.')
+        return
+
+    # اضافه کردن گروه به لیست انتظار
+    chat = update.message.chat
+    PendingGroup.objects.create(title=chat.title, chat_id=chat.id, admin_id=group_creator.user.id,
+                                admin_username=group_creator.user.name)
+    update.message.reply_text('گروه شما در لیست انتظار قرار گرفت، بعد از تایید توسط مدیران به سایت اضافه می‌گردد.')
 
 
 def start(bot, update):
-    logger.info('start commands from. chat_id: {0}, chat_type: {1}'
-      .format(update.message.chat.id, update.message.chat.type))
+    logger.info('start commands from. chat_id: {0}, chat_type: {1}'.format(
+                    update.message.chat.id, update.message.chat.type))
 
     if update.message.chat.type == 'supergroup':
-        reply_keyboard = [['افزودن گروه به سایت', 'راهنما']]
+        reply_keyboard = [['/register', '/help']]
     else:
-        reply_keyboard = [['/get_id', '/hi', '/help']]
+        reply_keyboard = [['/get_id', '/github', '/help']]
     
-    text = 'سلام خوش‌آمدید، این بات در حال توسعه می‌باشد.'
+    text = '''سلام!
+    بعد یه فکر برای یه پیغام خوشگل میکنم 😂😂😂😂😂😂'''
     bot.sendMessage(update.message.chat_id, text=text,
-                    reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+                    reply_markup=ReplyKeyboardMarkup(reply_keyboard))
 
 
 def get_help(bot, update):

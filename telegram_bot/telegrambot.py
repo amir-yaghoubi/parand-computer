@@ -46,7 +46,7 @@ def main():
 
     dp.add_handler(CommandHandler("start", commands.start))
     dp.add_handler(CommandHandler("help", commands.get_help))
-    dp.add_handler(CommandHandler("add", commands.add))
+    dp.add_handler(CommandHandler("register", commands.register))
     dp.add_handler(CommandHandler('get_id', commands.get_id))
 
     # log all errors
