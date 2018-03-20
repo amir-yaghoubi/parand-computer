@@ -1,0 +1,58 @@
+@import '_fonts'
+
+$basePadding: 16px
+$textColor: #C4DAEB
+$themeColor: #0B3954
+$errColor: #FF878A
+
+
+body
+  direction: rtl
+  text-align: center
+  background: $themeColor
+  font-family: $koodak-font
+  padding: $basePadding * 3
+
+  @media screen and (max-width: 576px)
+    padding: $basePadding
+
+.error-container
+  background: darken($themeColor, 2%)
+  padding: $basePadding * 3
+  text-align: center
+  max-width: 800px
+  line-height: 1.4
+  margin: auto
+  color: $textColor
+  border: 10px $textColor dashed
+
+  @media screen and (max-width: 576px)
+    padding: $basePadding * 2 $basePadding
+  h1
+    margin: 0
+    font-size: 128px
+    color: $errColor
+    font-family: $titr-font
+
+  h2
+    font-size: 32px
+  h4
+    font-size: 24px
+  h2, h4
+    margin: 12px 0
+
+.btn
+  margin: auto
+  margin-top: 32px
+  max-width: 150px
+
+  a
+    padding: 8px 16px
+    background: $textColor
+    font-size: 24px
+    color: $themeColor
+    text-decoration: none
+    border: 3px $textColor solid
+    &:hover
+      background: $themeColor
+      color: $textColor
