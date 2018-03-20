@@ -159,6 +159,9 @@ main {
 .group-table tbody > tr:hover {
   background: #e0ecf0; }
 
+.clickable-row {
+  cursor: pointer; }
+
 #github-section {
   padding: 48px; }
   #github-section p {
@@ -168,6 +171,11 @@ main {
 #github-icon {
   font-size: 8em;
   text-align-last: end; }
+  @media screen and (max-width: 576px) {
+    #github-icon {
+      text-align-last: unset;
+      text-align: center;
+      line-height: 1; } }
 
 #donate-section {
   padding: 48px 48px;

@@ -78,6 +78,9 @@ main
   tbody > tr:hover
     background: lighten($theme-color, 70%)
 
+.clickable-row
+  cursor: pointer
+
 #github-section
   padding: $textPadding * 3
   p
@@ -87,6 +90,11 @@ main
 #github-icon
   font-size: 8em
   text-align-last: end
+
+  @media screen and (max-width: 576px)
+    text-align-last: unset
+    text-align: center
+    line-height: 1
   
 #donate-section
   padding: 48px $textPadding * 3

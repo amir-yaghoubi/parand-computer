@@ -13,12 +13,12 @@
         </thead>
         <tbody>
         {% for gp in group %}
-            <tr>
-                <td><a target="_blank"
-                       href="{% url 'get_group_link' gp.slug %}">{{ gp.title }}</a></td>
+            <tr class="clickable-row" data-href="{% url 'get_group_link' gp.slug %}">
+                <td>{{ gp.title }}</td>
                 <td>{{ gp.teacher }}</td>
                 <td>{{ gp.members }}</td>
             </tr>
+
         {% endfor %}
         </tbody>
     </table>
