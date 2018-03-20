@@ -1,0 +1,31 @@
+{% if group %}
+    <table class="table group-table">
+        <thead>
+        <tr>
+            <th scope="col">نام گروه</th>
+            <th scope="col">
+                <i class='fas fa-graduation-cap'></i>استاد
+            </th>
+            <th scope="col">
+                <i class='fas fa-user'></i>اعضا
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for gp in group %}
+            <tr>
+                <td><a target="_blank"
+                       href="{% url 'get_group_link' gp.slug %}">{{ gp.title }}</a></td>
+                <td>{{ gp.teacher }}</td>
+                <td>{{ gp.members }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% else %}
+    <div class='group-empty'>
+        <div class="display-1"><i class="far fa-frown"></i></div>
+        متاسفانه هنوز گروهی در این بخش اضافه نشده است.
+    </div>
+{% endif %}
