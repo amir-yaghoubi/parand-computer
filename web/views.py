@@ -48,5 +48,5 @@ def about(request):
     return render(request, 'web/index.html', {})
 
 
-def help(request):
+def help_view(request):
     return render(request, 'web/index.html', {})
