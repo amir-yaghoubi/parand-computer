@@ -34,10 +34,10 @@ class Group(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete='CASCADE')
     category = models.CharField(max_length=1, choices=category_options)
 
-    active = models.BooleanField(verbose_name='فعال', default=False)
+    active = models.BooleanField(verbose_name='فعال', default=True)
+    show = models.BooleanField(verbose_name='نمایش در سایت', default=False)
 
     created_date = models.DateTimeField(verbose_name='تاریخ ایجاد', auto_now_add=True)
-    approval_date = models.DateTimeField(verbose_name='تاریخ تایید', auto_now_add=True)  # remove auto_now_add
 
     def _generate_unique_slug(self):
         slug = slugify(self.title + ' ' + str(self.teacher), allow_unicode=True)
@@ -79,7 +79,7 @@ class Group(models.Model):
 
     class Meta:
         verbose_name_plural = "گروه‌ها"
-        ordering = ['-approval_date']
+        ordering = ['-created_date']
 
 
 class PendingGroup(models.Model):
