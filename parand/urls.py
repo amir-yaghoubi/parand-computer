@@ -25,5 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^bot/', include('django_telegrambot.urls')),
     path('donate/', include('donate.urls')),
+    path('panel/', include('panel.urls')),
     path('', url_include('web.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
