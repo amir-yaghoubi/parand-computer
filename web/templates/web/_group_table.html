@@ -13,7 +13,7 @@
         </thead>
         <tbody>
         {% for gp in group %}
-            <tr class="clickable-row" data-href="{% url 'get_group_link' gp.slug %}">
+            <tr class="clickable-row" data-href="{% url 'web:get_group_link' gp.slug %}">
                 <td>{{ gp.title }}</td>
                 <td>{{ gp.teacher }}</td>
                 <td>{{ gp.members }}</td>

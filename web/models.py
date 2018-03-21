@@ -60,7 +60,7 @@ class Group(models.Model):
 
     def get_absolute_url(self):
         kwargs = {'slug': self.slug}
-        return reverse('get_group_link', kwargs)
+        return reverse('web:get_group_link', kwargs)
 
     def __str__(self):
         return '{0}-{1}'.format(self.title, self.get_category_display())
