@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
+from django.views.decorators.http import require_GET
 from telegram_bot.telegrambot import get_group_link
 from .models import Group
 
@@ -36,6 +37,7 @@ class IndexPage(ListView):
         return context
 
 
+@require_GET
 def export_group_link(request, slug):
     # پیدا کردن گروه بر اساس اسلاگ و صفحه 404 در صورت عدم پیدا شدن
     group = get_object_or_404(Group, slug=slug)
