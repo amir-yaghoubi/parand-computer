@@ -50,11 +50,9 @@ class Group(models.Model):
         return unique_slug
 
     def save(self, *args, **kwargs):
-        # TODO test
         # اگه اسلاگ هنوز ایجاد نشده بود
         # تنها در ایجاد رکورد جدید
-        # if not self.slug:
-        if self.slug == 'no-slug':
+        if not self.slug or self.slug == 'no-slug':
             # یک اسلاگ براش تولید بشه
             self.slug = self._generate_unique_slug()
 
