@@ -1,30 +1,39 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView
 from telegram_bot.telegrambot import get_group_link
 from .models import Group
 
 
-def index(request):
-    groups = Group.objects.filter(active=True).order_by('-title').all()
+class IndexPage(ListView):
+    queryset = Group.objects.filter(active=True).order_by('-title').all()
+    template_name = 'web/index.html'
+    context_object_name = 'groups'
 
-    azmayeshgah = []
-    takhasosi = []
-    other = []
+    def _group_by_category(self, groups):
+        azmayeshgah = []
+        takhasosi = []
+        other = []
+        for gp in groups:
+            info = {'title': gp.title, 'teacher': str(gp.teacher), 'members': gp.members, 'slug': gp.slug}
+            if gp.category == 'A':
+                azmayeshgah.append(info)
+            elif gp.category == 'T':
+                takhasosi.append(info)
+            else:
+                other.append(info)
 
-    for gp in groups:
-        info = {'title': gp.title, 'teacher': str(gp.teacher), 'members': gp.members, 'slug': gp.slug}
-        if gp.category == 'A':
-            azmayeshgah.append(info)
-        elif gp.category == 'T':
-            takhasosi.append(info)
-        else:
-            other.append(info)
+        return {
+            'azmayeshgah': azmayeshgah,
+            'takhasosi': takhasosi,
+            'other': other
+        }
 
-    obj_dict = {
-        'azmayeshgah': azmayeshgah,
-        'takhasosi': takhasosi,
-        'other': other
-    }
-    return render(request, 'web/index.html', {'groups': obj_dict})
+    def get_context_data(self, **kwargs):
+        # دریافت لیست گروه ها
+        context = super().get_context_data(**kwargs)
+        # گروه بندی بر گروه‌ها و تغییر کانتکست
+        context['groups'] = self._group_by_category(context['groups'])
+        return context
 
 
 def export_group_link(request, slug):
