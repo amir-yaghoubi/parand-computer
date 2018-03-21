@@ -108,7 +108,7 @@ def start(bot, update):
 
 def get_help(bot, update):
     # TODO better url making i guess
-    help_url = 'http://www.{0}{1}'.format('localhost:8000', reverse('help'))
+    help_url = 'http://www.{0}{1}'.format('localhost:8000', reverse('web:help'))
     keyboard = [[InlineKeyboardButton('📘 مطالعه بیشتر', help_url)]]
     keyboard_markup = InlineKeyboardMarkup(keyboard)
 

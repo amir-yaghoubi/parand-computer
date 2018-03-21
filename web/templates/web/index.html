@@ -41,9 +41,9 @@
             <ul class="navbar-nav navbar-right">
                 <li class="nav-item">
                     {% if user.is_authenticated %}
-                    <a class="btn btn-login" href="#">مدیریت</a>
+                        <a class="btn btn-theme" href="{% url 'panel:index' %}">مدیریت</a>
                     {% else %}
-                    <button class="btn btn-login" data-toggle="modal" data-target="#login-modal">ورود ادمین</button>
+                        <a class="btn btn-theme" href="{% url 'panel:login' %}">ورود ادمین</a>
                     {% endif %}
                 </li>
             </ul>
@@ -91,7 +91,7 @@
                         <!-- second group section -->
                         <div class="group-header">گروه‌های دروس تخصصی</div>
                         <div class="card-body">
-                           {% include 'web/_group_table.html' with group=groups.takhasosi %}
+                            {% include 'web/_group_table.html' with group=groups.takhasosi %}
                         </div>
 
                         <!-- other group section -->
@@ -231,7 +231,21 @@
                 <!-- modal header -->
 
                 <div class="modal-body">
-                    لطفا وارد حساب کاربری خود شوید.
+                    <form class="needs-validation" id="login_form" method="POST" action="."
+                          data-url="{% url 'panel:login' %}" novalidate>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="form_username">نام کاربری</label>
+                            <input minlength="4" type="text" class="form-control" id="form_username" required>
+                            <div class="invalid-feedback">نام کاربری شما نامعتبر می‌باشد</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="form_password">گذرواژه</label>
+                            <input minlength="6" type="password" class="form-control" id="form_password" required>
+                            <div class="invalid-feedback">گذرواژه شما نامعتبر می‌باشد</div>
+                        </div>
+                        <button type="submit" class="btn-theme-invert">ورود</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -240,10 +254,21 @@
 {% endif %}
 
 <!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src={% static "web/js/parand_computer.js" %}></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script>
+    // click on rows to redirect them.
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+</script>
 </body>
 
 </html>

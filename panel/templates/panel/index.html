@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>پنل مدیریت سایت</title>
+</head>
+<body>
+
+<table style="border: 2px #777 solid;">
+    <thead>
+    <tr>
+        <th>title</th>
+        <th>admin</th>
+        <th>date</th>
+        <th>activate</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for gp in pending %}
+        <tr>
+            <td>{{ gp.title }}</td>
+            <td>{{ gp.admin_username }}</td>
+            <td>{{ gp.created_date }}</td>
+            <td><a href="{% url 'panel:group-approve' gp.slug %}">activate</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

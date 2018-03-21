@@ -14,17 +14,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.urls import include as url_include
-from django.conf.urls import url, include
+from django.urls import path, include, register_converter
 from django.conf import settings
 from django.conf.urls.static import static
+from utils.path_convertor import GroupSlug, NormalSlug
 
+# register our slug (unicode slug)
+register_converter(GroupSlug, 'groupSlug')
+register_converter(NormalSlug, 'normalSlug')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^bot/', include('django_telegrambot.urls')),
+    path('bot/', include('django_telegrambot.urls')),
     path('donate/', include('donate.urls')),
     path('panel/', include('panel.urls')),
-    path('', url_include('web.urls'))
+    path('', include('web.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

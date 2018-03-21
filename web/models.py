@@ -1,6 +1,6 @@
 from django.db import models
-from django.utils.text import slugify
 from django.shortcuts import reverse
+from utils.path_convertor import GroupSlug, NormalSlug
 
 
 class Teacher(models.Model):
@@ -39,10 +39,9 @@ class Group(models.Model):
     created_date = models.DateTimeField(verbose_name='تاریخ ایجاد', auto_now_add=True)
 
     def _generate_unique_slug(self):
-        slug = slugify(self.title + ' ' + str(self.teacher), allow_unicode=True)
+        slug = GroupSlug.slug_it(self.title, str(self.teacher))
         unique_slug = slug
         num = 1
-
         # تا زمانی که اسلاگ ایجاد شده موجود باشه یکی دیگه می‌سازیم
         while Group.objects.filter(slug=unique_slug).exists():
             unique_slug = f'{slug}-{num}'
@@ -59,8 +58,7 @@ class Group(models.Model):
         super().save()
 
     def get_absolute_url(self):
-        kwargs = {'slug': self.slug}
-        return reverse('web:get_group_link', kwargs)
+        return reverse('web:get_group_link', {'slug': self.slug})
 
     def __str__(self):
         return '{0}-{1}'.format(self.title, self.get_category_display())
@@ -72,10 +70,33 @@ class Group(models.Model):
 
 class PendingGroup(models.Model):
     chat_id = models.IntegerField(verbose_name='شناسه گروه', primary_key=True)
+    slug = models.CharField(max_length=300, unique=True)
     title = models.CharField(max_length=200, verbose_name='نام گروه', null=False)
     admin_id = models.IntegerField(verbose_name='شناسه ادمین', null=True)
     admin_username = models.CharField(verbose_name='نام کاربری ادمین', max_length=50,  default="تعریف نشده", null=True)
     created_date = models.DateTimeField(verbose_name='تاریخ ایجاد', auto_now_add=True)
+
+    def _generate_unique_slug(self):
+        slug = NormalSlug.slug_it(self.title)
+        unique_slug = slug
+        num = 1
+        # تا زمانی که اسلاگ ایجاد شده موجود باشه یکی دیگه می‌سازیم
+        while Group.objects.filter(slug=unique_slug).exists():
+            unique_slug = f'{slug}-{num}'
+            num += 1
+        return unique_slug
+
+    def save(self, *args, **kwargs):
+        # اگه اسلاگ هنوز ایجاد نشده بود
+        # تنها در ایجاد رکورد جدید
+        if not self.slug:
+            # یک اسلاگ براش تولید بشه
+            self.slug = self._generate_unique_slug()
+
+        super().save()
+
+    def get_absolute_url(self):
+        return reverse('web:get_group_link', {'slug': self.slug})
 
     def __str__(self):
         return f'گروه {self.title} ساخته شده توسط {self.admin_username}'

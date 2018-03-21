@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ورود</title>
+</head>
+<body>
+<h1>صفحه ورود ادمین به سایت</h1>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">ورود</button>
+</form>
+
+</body>
+</html>

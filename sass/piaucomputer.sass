@@ -1,5 +1,6 @@
 @import "fonts"
 @import "mainPage/header"
+@import "mainPage/loginForm"
 @import "variables"
 @import "utils"
 
@@ -15,6 +16,33 @@ main
 .group-background
   background: $background-color
 
+.btn-theme
+  margin-top: 8px
+  border: 2px $text-color solid
+  border-radius: 2px
+  background: transparent
+  color: $text-color
+  +transition-fix(background, 300ms)
+
+  &:hover
+    background: $text-color
+    color: $theme-color
+
+.btn-theme-invert
+  @extend .btn-theme
+  border: 2px $theme-color solid
+  min-width: 100px
+  margin-top: 0px
+  padding-right: 4px
+  padding-left: 4px
+  background: $theme-color
+  color: $text-color
+
+  &:hover
+      background: $text-color
+      color: $theme-color
+      border: 2px $theme-color solid
+      cursor: pointer
 
 .my-card
   box-shadow: 0px 2px 4px #777

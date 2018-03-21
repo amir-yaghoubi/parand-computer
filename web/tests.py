@@ -1,12 +1,14 @@
-from django.test import TestCase
-from .path_convertor import UnicodeSlug
-from web.models import Teacher, Group, PendingGroup
 from datetime import datetime
+
+from django.test import TestCase
+
+from utils.path_convertor import GroupSlug
+from web.models import Teacher, Group, PendingGroup
 
 
 class UnicodeSlugTests(TestCase):
     def test_normal_named_groups_to_slug(self):
-        slug = UnicodeSlug()
+        slug = GroupSlug()
         value = slug.to_url('آزمایشگاه پایگاه داده استاد سلیمانی')
         self.assertEqual(value, 'آزمایشگاه-پایگاه-داده-استاد-سلیمانی',)
 
@@ -17,7 +19,7 @@ class UnicodeSlugTests(TestCase):
         self.assertEqual(value, '-پایگاه-دادهسلیمانی-۲')
 
     def test_valid_to_python_format(self):
-        slug = UnicodeSlug()
+        slug = GroupSlug()
         valid_names = [
             'آزمایشگاه-پایگاه-داده-استاد-سلیمانی',
             'آزمایشگاه-پایگاه-داده-استاد-سلیمانی-۲',
@@ -32,7 +34,7 @@ class UnicodeSlugTests(TestCase):
             self.assertEqual(slug.to_python(text), text)
 
     def test_invalid_to_python_format(self):
-        slug = UnicodeSlug()
+        slug = GroupSlug()
         invalid_names = [
             'ازمایشگاه فیزیک',
             '۲۲۲۲۲ فیزیک ۲۲۲۲',
