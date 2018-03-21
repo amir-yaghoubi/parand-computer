@@ -1,7 +1,8 @@
 from django.test import TestCase
 from .path_convertor import UnicodeSlug
-from web.models import Teacher, Group
-from django.shortcuts import reverse
+from web.models import Teacher, Group, PendingGroup
+from datetime import datetime
+
 
 class UnicodeSlugTests(TestCase):
     def test_normal_named_groups_to_slug(self):
@@ -99,17 +100,18 @@ class GroupModelTests(TestCase):
         self.assertEqual(group1.slug, 'آزمایشگاه-فیزیک-کوانتوم-استاد-اسلامی-1')
         self.assertEqual(group1._generate_unique_slug(), 'آزمایشگاه-فیزیک-کوانتوم-استاد-اسلامی-2')
 
+    def test_to_string(self):
+        group = Group.objects.create(title='آزمایشگاهوم',
+                             chat_id=67, members=10, admin_id=1,
+                             admin_username='@username',
+                             teacher=self.teacher1, category='T', created_date=datetime.now(),
+                             active=True)
+        self.assertEqual(str(group), f'{group.title}-{group.get_category_display()}')
 
-# class IndexViewTest(TestCase):
-#     def setUp(self):
-#         self.teacher1 = Teacher.objects.create(name='اسلامی', email='rng@gmail.com')
-#         self.group1 = Group.objects.create(title='آزمایشگاه فیزیک کوانتوم',
-#                                       chat_id=1, members=10, admin_id=1,
-#                                       admin_username='@username',
-#                                       teacher=self.teacher1, category='T',
-#                                       active=True)
-#
-#     def test_sample(self):
-#         url = reverse('get_group_link', kwargs={'slug': str(self.group1.slug)})
-#         resp = self.client.get(url)
-#         print(resp)
+
+class PendingGroupModelTests(TestCase):
+    def test_to_string(self):
+        pending_gp = PendingGroup.objects.create(chat_id=100, admin_id=100,
+                                                 admin_username='@Amir',
+                                                 title='ریزپردازنده')
+        self.assertEqual(str(pending_gp), f'گروه {pending_gp.title} ساخته شده توسط {pending_gp.admin_username}')

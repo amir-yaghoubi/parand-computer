@@ -34,8 +34,7 @@ class Group(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete='CASCADE')
     category = models.CharField(max_length=1, choices=category_options)
 
-    active = models.BooleanField(verbose_name='فعال', default=True)
-    show = models.BooleanField(verbose_name='نمایش در سایت', default=False)
+    active = models.BooleanField(verbose_name='نمایش در سایت', default=True)
 
     created_date = models.DateTimeField(verbose_name='تاریخ ایجاد', auto_now_add=True)
 
@@ -61,21 +60,12 @@ class Group(models.Model):
 
         super().save()
 
-    def get_category_string(self):
-        # TODO Test
-        cat_name = ''
-        for cat in self.category_options:
-            if cat[0] == self.category:
-                cat_name = cat[1]
-                break
-        return cat_name
-
     def get_absolute_url(self):
         kwargs = {'slug': self.slug}
         return reverse('get_group_link', kwargs)
 
     def __str__(self):
-        return '{0}-{1}'.format(self.title, self.get_category_string())
+        return '{0}-{1}'.format(self.title, self.get_category_display())
 
     class Meta:
         verbose_name_plural = "گروه‌ها"
