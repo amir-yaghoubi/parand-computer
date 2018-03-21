@@ -4,7 +4,7 @@ from .models import Group
 
 
 def index(request):
-    groups = Group.objects.filter(show=True).order_by('-title').all()
+    groups = Group.objects.filter(active=True).order_by('-title').all()
 
     azmayeshgah = []
     takhasosi = []
