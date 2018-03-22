@@ -99,7 +99,7 @@ class PendingGroup(models.Model):
         return reverse('web:get_group_link', {'slug': self.slug})
 
     def __str__(self):
-        return f'گروه {0} ساخته شده توسط {1}'.format(self.title, self.admin_username)
+        return 'گروه {0} ساخته شده توسط {1}'.format(self.title, self.admin_username)
 
     class Meta:
         verbose_name_plural = "گروه‌های درحال انتظار"
