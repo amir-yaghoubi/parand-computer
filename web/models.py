@@ -39,7 +39,7 @@ class Group(models.Model):
     created_date = models.DateTimeField(verbose_name='تاریخ ایجاد', auto_now_add=True)
 
     def _generate_unique_slug(self):
-        slug = GroupSlug.slug_it(self.title, str(self.teacher))
+        slug = GroupSlug.slug_it(title=self.title, teacher=str(self.teacher))
         unique_slug = slug
         num = 1
         # تا زمانی که اسلاگ ایجاد شده موجود باشه یکی دیگه می‌سازیم
@@ -77,7 +77,7 @@ class PendingGroup(models.Model):
     created_date = models.DateTimeField(verbose_name='تاریخ ایجاد', auto_now_add=True)
 
     def _generate_unique_slug(self):
-        slug = NormalSlug.slug_it(self.title)
+        slug = NormalSlug.slug_it(title=self.title)
         unique_slug = slug
         num = 1
         # تا زمانی که اسلاگ ایجاد شده موجود باشه یکی دیگه می‌سازیم
