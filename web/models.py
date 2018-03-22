@@ -44,7 +44,7 @@ class Group(models.Model):
         num = 1
         # تا زمانی که اسلاگ ایجاد شده موجود باشه یکی دیگه می‌سازیم
         while Group.objects.filter(slug=unique_slug).exists():
-            unique_slug = f'{slug}-{num}'
+            unique_slug = '{0}-{1}'.format(slug, num)
             num += 1
         return unique_slug
 
@@ -82,7 +82,7 @@ class PendingGroup(models.Model):
         num = 1
         # تا زمانی که اسلاگ ایجاد شده موجود باشه یکی دیگه می‌سازیم
         while Group.objects.filter(slug=unique_slug).exists():
-            unique_slug = f'{slug}-{num}'
+            unique_slug = '{0}-{1}'.format(slug, num)
             num += 1
         return unique_slug
 
@@ -99,7 +99,7 @@ class PendingGroup(models.Model):
         return reverse('web:get_group_link', {'slug': self.slug})
 
     def __str__(self):
-        return f'گروه {self.title} ساخته شده توسط {self.admin_username}'
+        return f'گروه {0} ساخته شده توسط {1}'.format(self.title, self.admin_username)
 
     class Meta:
         verbose_name_plural = "گروه‌های درحال انتظار"
