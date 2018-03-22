@@ -25,7 +25,7 @@ register_converter(NormalSlug, 'normalSlug')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('bot/', include('django_telegrambot.urls')),
+    path('', include('django_telegrambot.urls')),
     path('donate/', include('donate.urls')),
     path('panel/', include('panel.urls')),
     path('', include('web.urls'))
