@@ -63,17 +63,5 @@ class ApproveGroupView(CreateView):
         return super(ApproveGroupView, self).form_valid(form)
 
 
-def approve_group(request, slug):
-    """Place Holder"""
-    pending = get_object_or_404(PendingGroup, slug=slug)
-    teacher = Teacher.objects.get(pk=1)
-    Group.objects.create(title=pending.title,
-                         chat_id=pending.chat_id, admin_id=pending.admin_id,
-                         admin_username=pending.admin_username,
-                         category='T', active=True, teacher=teacher)
-    pending.delete()
-    return redirect('panel:index')
-
-
 def placeholder(request):
     pass
