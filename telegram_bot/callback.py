@@ -1,7 +1,6 @@
 from telegram import (InlineQueryResultArticle, InputTextMessageContent, InlineKeyboardButton, InlineKeyboardMarkup)
 from django.db.models import Q
 from web.models import PendingGroup, Group
-from .actions import get_group_link
 import logging
 
 logger = logging.getLogger(__name__)
