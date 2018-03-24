@@ -3,6 +3,7 @@
 @import "mainPage/loginForm"
 @import "variables"
 @import "utils"
+@import "button"
 
 main
   font-family: $koodak-font
@@ -16,54 +17,9 @@ main
 .group-background
   background: $background-color
 
-.btn-theme
-  margin-top: 8px
-  border: 2px $text-color solid
-  border-radius: 2px
-  background: transparent
-  color: $text-color
-  +transition-fix(background, 300ms)
 
-  &:hover
-    background: $text-color
-    color: $theme-color
-
-.btn-theme-invert
-  @extend .btn-theme
-  border: 2px $theme-color solid
-  min-width: 100px
-  margin-top: 0px
-  padding-right: 4px
-  padding-left: 4px
-  background: $theme-color
-  color: $text-color
-
-  &:hover
-      background: $text-color
-      color: $theme-color
-      border: 2px $theme-color solid
-      cursor: pointer
-
-.my-card
-  box-shadow: 0px 2px 4px #777
-  border: 0px solid transparent
-  border-radius: 2px
-  color: $primary-text-color
-  margin-bottom: -$header-bottom + 36px
-  background: #fff
-  padding-top: 12px
-
-  .group-header
-    font-size: 24px
-    padding: 12px 24px
-    font-family: $yekan-font
-    background: $theme-color
-    box-shadow: 0px 1px 2px #777777
-    color: $text-color
-    border: none
-    border-radius: 0px
-
-  .group-empty
+@import "card"
+.my-card .group-empty
     border: 5px $secondary-text dashed
     padding: 24px
     font-size: 1.3em
