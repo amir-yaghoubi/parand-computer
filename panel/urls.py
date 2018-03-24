@@ -8,6 +8,7 @@ urlpatterns = [
     path('logout',              views.LogoutView.as_view(),     name='logout'),
     path('group/<normalSlug:slug>/approve/',  views.ApproveGroupView.as_view(),              name='group-approve'),
     path('group/<normalSlug:slug>/deny/',  views.DenyGroupView.as_view(),              name='group-deny'),
+    path('group/<normalSlug:slug>/request-name-change/',  views.request_name_change, name='group-request-name-change'),
     path('group/edit/<normalSlug:slug>/',     views.placeholder,              name='group-edit'),
     path('group/delete/<normalSlug:slug>/',   views.placeholder,              name='group-delete'),
     path('teacher/add',         views.placeholder,              name='teacher-add'),

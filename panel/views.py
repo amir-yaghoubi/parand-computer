@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.urls import reverse_lazy
 from django.views.generic import FormView, RedirectView, CreateView, DeleteView
+from django.views.decorators.http import require_POST
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, redirect
 from telegram_bot.actions import send_group_status_notification
 from web.models import PendingGroup, Group, Teacher
@@ -86,6 +87,15 @@ class DenyGroupView(LoginRequiredMixin, DeleteView):
 
         self.object.delete()
         return HttpResponseRedirect(self.get_success_url())
+
+
+@require_POST
+def request_name_change(request, slug):
+    pending_group = get_object_or_404(PendingGroup, slug=slug)
+
+    send_group_status_notification(pending_group.chat_id, 50)
+
+    return redirect('panel:index')
 
 
 def placeholder(request):
