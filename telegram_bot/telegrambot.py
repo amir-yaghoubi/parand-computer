@@ -1,9 +1,8 @@
-from telegram.ext import CommandHandler, CallbackQueryHandler
+from telegram.ext import CommandHandler, CallbackQueryHandler, InlineQueryHandler
 from django_telegrambot.apps import DjangoTelegramBot
+from .callback import check_group_name, search_group_callback, get_link_callback
 from . import commands
-from .callback import check_group_name
 import logging
-
 
 # config logger
 handler = logging.FileHandler("logs/telegram-bot.log", "w", encoding="UTF-8")
@@ -15,8 +14,6 @@ logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
 
-
-
 def main():
     logger.info("Loading handlers for telegram bot")
 
@@ -25,7 +22,9 @@ def main():
     dp.add_handler(CommandHandler("start", commands.start))
     dp.add_handler(CommandHandler("help", commands.get_help))
     dp.add_handler(CommandHandler("register", commands.register))
-    dp.add_handler(CallbackQueryHandler(check_group_name, pattern=r'^gp_verify:name'))
+    dp.add_handler(CallbackQueryHandler(check_group_name, pattern=r'^gp_verify:name$'))
+    dp.add_handler(CallbackQueryHandler(get_link_callback, pattern=r'^chat_link:-?[\d]+$'))
+    dp.add_handler(InlineQueryHandler(search_group_callback))
     dp.add_handler(CommandHandler('get_id', commands.get_id))
 
     # log all errors
