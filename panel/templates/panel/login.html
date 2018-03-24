@@ -1,17 +1,53 @@
-<!DOCTYPE html>
+<!DOCTYPE html>{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ورود</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel='stylesheet' href={% static 'css/bootstrap-rtl.min.css' %} />
+    <link rel='stylesheet' href={% static 'panel/css/login.min.css' %} />
+    <title>ورود به صفحه مدیریت</title>
 </head>
 <body>
-<h1>صفحه ورود ادمین به سایت</h1>
+<div class="container rtl">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-9 col-12-sm">
+            <div class=" my-card">
+            <div class="my-card-header">ورود به صفحه مدیریت سایت</div>
+            <div class="card-body">
+            {% if form.non_field_errors %}
+                <div class="errorlist">
+                <ul>
+                    {% for error in form.non_field_errors %}
+                        <li >
+                            <strong>{{ error|escape }}</strong>
+                        </li>
+                    {% endfor %}
+                </ul>
+                    </div>
+            {% endif %}
 
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">ورود</button>
-</form>
+
+                <form action="" method="POST">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="id_username">نام کاربری: </label>
+                        <input class="form-control" type="text" name="username" autofocus="" maxlength="254" required="" id="id_username"></div>
+                    <div class="form-group">
+                        <label for="id_password">گذرواژه: </label>
+                        <input class="form-control" type="password" name="password" required="" id="id_password">
+                    </div>
+                    <button class="btn-theme-invert btn-block" type="submit">ورود</button>
+                </form>
+                <a class="btn btn-outline-info btn-block my-2" href="{% url 'web:index' %}">بازگشت</a>
+            </div>
+        </div>
+        </div>
+    </div>
+
+</div>
+
 
 </body>
 </html>
