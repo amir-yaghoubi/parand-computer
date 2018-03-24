@@ -62,6 +62,11 @@ class ApproveGroupView(LoginRequiredMixin, CreateView):
         form.instance.members = 12  # get from telegram
         pending.delete()
 
+        try:  # TODO Better Exception Handling
+            send_group_status_notification(form.instance.chat_id, 100)
+        except Exception:
+            pass
+
         return super(ApproveGroupView, self).form_valid(form)
 
 
