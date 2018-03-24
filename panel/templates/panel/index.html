@@ -13,6 +13,7 @@
         <th>admin</th>
         <th>date</th>
         <th>activate</th>
+        <th>deny</th>
     </tr>
     </thead>
     <tbody>
@@ -22,6 +23,7 @@
             <td>{{ gp.admin_username }}</td>
             <td>{{ gp.created_date }}</td>
             <td><a href="{% url 'panel:group-approve' gp.slug %}">activate</a></td>
+            <td><a href="{% url 'panel:group-deny' gp.slug %}">deny</a></td>
         </tr>
     {% endfor %}
     </tbody>
