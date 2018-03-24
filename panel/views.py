@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout
 from django.urls import reverse_lazy
 from django.views.generic import FormView, RedirectView, CreateView, DeleteView
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, redirect
+from telegram_bot.actions import send_group_status_notification
 from web.models import PendingGroup, Group, Teacher
 from .forms import ApproveGroupForm
 from .mixins import LoginRequiredMixin
@@ -69,7 +70,17 @@ class DenyGroupView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('panel:index')
     template_name = 'panel/pending_group_confirm_delete.html'
 
-    # TODO Message to group that we denied your group.
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        chat_id = self.object.chat_id
+
+        try:
+            send_group_status_notification(chat_id, -100)
+        except Exception:
+            pass
+
+        self.object.delete()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 def placeholder(request):
