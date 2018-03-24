@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def get_group_link(chat_id):
+def get_group_link(chat_id, bot=None):
     """Get chat invite link from telegram
     param:
         chat_id: group chat id (required)
@@ -21,7 +21,9 @@ def get_group_link(chat_id):
     if chat_id is None or not isinstance(chat_id, int):
         raise ValueError('chat_id is invalid.')
 
-    bot = Bot(app_settings.BOT_TOKEN)
+    if bot is None:
+        bot = Bot(app_settings.BOT_TOKEN)
+
     try:
         logger.info('Getting chat invite link. chat_id'.format(chat_id))
         return bot.export_chat_invite_link(chat_id)
