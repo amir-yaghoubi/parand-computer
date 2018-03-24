@@ -72,7 +72,7 @@
                     <div class="my-card">
 
                         <!-- special-groups -->
-                        <div class="group-header">گروه‌های ویژه</div>
+                        <div class="my-card-header">گروه‌های ویژه</div>
                         <div class="card-body">
                             <div class="group-special">
                                 <ul>
@@ -83,19 +83,19 @@
                         </div>
 
                         <!-- fist group section -->
-                        <div class="group-header">گروه‌های دروس آزمایشگاه</div>
+                        <div class="my-card-header">گروه‌های دروس آزمایشگاه</div>
                         <div class="card-body">
                             {% include 'web/_group_table.html' with group=groups.azmayeshgah %}
                         </div>
 
                         <!-- second group section -->
-                        <div class="group-header">گروه‌های دروس تخصصی</div>
+                        <div class="my-card-header">گروه‌های دروس تخصصی</div>
                         <div class="card-body">
                             {% include 'web/_group_table.html' with group=groups.takhasosi %}
                         </div>
 
                         <!-- other group section -->
-                        <div class="group-header">دیگر گروه‌های درسی</div>
+                        <div class="my-card-header">دیگر گروه‌های درسی</div>
                         <div class="card-body">
                             {% include 'web/_group_table.html' with group=groups.other %}
                         </div>
