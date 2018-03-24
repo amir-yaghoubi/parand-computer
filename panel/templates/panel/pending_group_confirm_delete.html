@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>رد درخواست گروه {{ pendinggroup.title }}</title>
+</head>
+<body>
+
+<h1>آیا از رد درخواست گروه به نام << {{ pendinggroup.title }} >> اطمینان دارید؟</h1>
+<form action="" method="POST">
+    {% csrf_token %}
+    <button type="submit" >بله، مطمن هستم!</button>
+</form>
+<a href="{% url 'panel:index' %}">نه، منصرف شدم!</a>
+
+</body>
+</html>
