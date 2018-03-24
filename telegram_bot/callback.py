@@ -18,7 +18,7 @@ def check_group_name(bot, update):
         return bot.edit_message_text(text=msg, chat_id=query.message.chat_id, message_id=query.message.message_id)
 
     else:
-        
+
         logger.warning('cannot find group by id: <{}>'.format(pending_group.chat_id))
         msg = "❌ گروه شما یافت نشد ❌"
         return bot.edit_message_text(text=msg, chat_id=query.message.chat_id, message_id=query.message.message_id)
