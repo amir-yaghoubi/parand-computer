@@ -16,7 +16,7 @@ class IndexPage(ListView):
         takhasosi = []
         other = []
         for gp in groups:
-            info = {'title': gp.title, 'teacher': str(gp.teacher), 'members': gp.members, 'slug': gp.slug}
+            info = {'title': gp.title, 'teacher': str(gp.teacher), 'link': gp.link, 'slug': gp.slug}
             if gp.category == 'A':
                 azmayeshgah.append(info)
             elif gp.category == 'T':
@@ -36,19 +36,6 @@ class IndexPage(ListView):
         # گروه بندی بر گروه‌ها و تغییر کانتکست
         context['groups'] = self._group_by_category(context['groups'])
         return context
-
-
-@require_GET
-def export_group_link(request, slug):
-    # پیدا کردن گروه بر اساس اسلاگ و صفحه 404 در صورت عدم پیدا شدن
-    group = get_object_or_404(Group, slug=slug)
-    request.group = group
-    # دریافت لینک گروه از تلگرام که ممکن است دچار Exception شود
-    # که رسیدگی به این خطاها توسط Middleware نوشته شده انجام میگردد
-    # رجوع شود به web.middleware.TelegramErrorMiddleware
-    link = get_group_link(chat_id=group.chat_id)
-
-    return redirect(link)
 
 
 def about(request):
