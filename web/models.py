@@ -26,7 +26,7 @@ class Group(models.Model):
     slug = models.CharField(max_length=300, unique=True, default='no-slug')
 
     chat_id = models.IntegerField(verbose_name='شناسه گروه', primary_key=True)
-    members = models.PositiveIntegerField(verbose_name='تعداد اعضا', default=0)
+    link = models.URLField(verbose_name='لینک گروه')
 
     admin_id = models.IntegerField(verbose_name='شناسه ادمین', null=True)
     admin_username = models.CharField(verbose_name='نام کاربری ادمین', max_length=50,  default="تعریف نشده", null=True)
