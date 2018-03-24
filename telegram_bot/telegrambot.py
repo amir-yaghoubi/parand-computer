@@ -5,12 +5,6 @@ from .callback import check_group_name
 import logging
 
 
-# formatters: {
-#     'simple': {
-#         'format': u'%(asctime)-s %(levelname)s [%(name)s]: %(message)s',
-#         'datefmt': '%Y-%m-%d %H:%M:%S',
-#     },
-
 # config logger
 handler = logging.FileHandler("logs/telegram-bot.log", "w", encoding="UTF-8")
 formatter = logging.Formatter(u'%(asctime)s - %(name)s - %(levelname)s - %(message)s')
