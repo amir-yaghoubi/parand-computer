@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, RedirectView, CreateView, DeleteView
 from django.views.decorators.http import require_POST
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, redirect
-from telegram_bot.actions import send_group_status_notification
+from telegram_bot.actions import send_group_status_notification, get_group_link
 from web.models import PendingGroup, Group, Teacher
 from .forms import ApproveGroupForm
 from .mixins import LoginRequiredMixin
@@ -59,8 +59,11 @@ class ApproveGroupView(LoginRequiredMixin, CreateView):
         form.instance.chat_id = pending.chat_id
         form.instance.admin_id = pending.admin_id
         form.instance.admin_username = pending.admin_username
+
+        # may produce exception
+        form.instance.link = get_group_link(pending.chat_id)
+
         form.instance.created_date = datetime.now()
-        form.instance.members = 12  # get from telegram
         pending.delete()
 
         try:  # TODO Better Exception Handling
