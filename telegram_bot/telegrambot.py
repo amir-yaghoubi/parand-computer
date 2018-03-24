@@ -1,11 +1,26 @@
-from telegram.ext import CommandHandler
+from telegram.ext import CommandHandler, CallbackQueryHandler
 from django_telegrambot.apps import DjangoTelegramBot
 from . import commands
+from .callback import check_group_name
 import logging
 
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(filename='logs/telegram-bot.log', level=logging.INFO)
+# formatters: {
+#     'simple': {
+#         'format': u'%(asctime)-s %(levelname)s [%(name)s]: %(message)s',
+#         'datefmt': '%Y-%m-%d %H:%M:%S',
+#     },
+
+# config logger
+handler = logging.FileHandler("logs/telegram-bot.log", "w", encoding="UTF-8")
+formatter = logging.Formatter(u'%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+logger = logging.getLogger()
+logger.addHandler(handler)
+logger.setLevel(logging.INFO)
+
+
 
 
 def main():
@@ -16,6 +31,7 @@ def main():
     dp.add_handler(CommandHandler("start", commands.start))
     dp.add_handler(CommandHandler("help", commands.get_help))
     dp.add_handler(CommandHandler("register", commands.register))
+    dp.add_handler(CallbackQueryHandler(check_group_name, pattern=r'^gp_verify:name'))
     dp.add_handler(CommandHandler('get_id', commands.get_id))
 
     # log all errors
