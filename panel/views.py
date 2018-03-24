@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.urls import reverse_lazy
-from django.views.generic import FormView, RedirectView, CreateView
+from django.views.generic import FormView, RedirectView, CreateView, DeleteView
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, redirect
 from web.models import PendingGroup, Group, Teacher
 from .forms import ApproveGroupForm
@@ -62,6 +62,14 @@ class ApproveGroupView(LoginRequiredMixin, CreateView):
         pending.delete()
 
         return super(ApproveGroupView, self).form_valid(form)
+
+
+class DenyGroupView(LoginRequiredMixin, DeleteView):
+    model = PendingGroup
+    success_url = reverse_lazy('panel:index')
+    template_name = 'panel/pending_group_confirm_delete.html'
+
+    # TODO Message to group that we denied your group.
 
 
 def placeholder(request):
