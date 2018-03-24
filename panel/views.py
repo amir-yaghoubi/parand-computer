@@ -2,10 +2,11 @@ from django.shortcuts import render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.urls import reverse_lazy
-from django.views.generic import FormView, RedirectView, ListView, CreateView
-from django.shortcuts import HttpResponse, HttpResponseRedirect, get_object_or_404, redirect
+from django.views.generic import FormView, RedirectView, CreateView
+from django.shortcuts import HttpResponseRedirect, get_object_or_404, redirect
 from web.models import PendingGroup, Group, Teacher
 from .forms import ApproveGroupForm
+from .mixins import LoginRequiredMixin
 from datetime import datetime
 
 
@@ -41,7 +42,7 @@ class LogoutView(RedirectView):
         return super(LogoutView, self).get(request, *args, **kwargs)
 
 
-class ApproveGroupView(CreateView):
+class ApproveGroupView(LoginRequiredMixin, CreateView):
     template_name = 'panel/form.html'
     form_class = ApproveGroupForm
     success_url = reverse_lazy('panel:index')
