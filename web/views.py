@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_GET
 from django.views.generic import ListView
 
-from telegram_bot.telegrambot import get_group_link
+from telegram_bot.actions import get_group_link
 from .models import Group
 
 
