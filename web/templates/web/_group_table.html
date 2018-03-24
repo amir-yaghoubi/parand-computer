@@ -2,21 +2,21 @@
     <table class="table group-table">
         <thead>
         <tr>
-            <th scope="col">نام گروه</th>
+            <th scope="col"> <i class='fas fa-edit'></i>نام گروه</th>
             <th scope="col">
                 <i class='fas fa-graduation-cap'></i>استاد
             </th>
             <th scope="col">
-                <i class='fas fa-user'></i>اعضا
+                <i class='fas fa-link'></i>لینک
             </th>
         </tr>
         </thead>
         <tbody>
         {% for gp in group %}
-            <tr class="clickable-row" data-href="{% url 'web:get_group_link' gp.slug %}">
+            <tr>
                 <td>{{ gp.title }}</td>
                 <td>{{ gp.teacher }}</td>
-                <td>{{ gp.members }}</td>
+                <td><a class="btn btn-success" href="{{ gp.link }}">لینک گروه</a></td>
             </tr>
 
         {% endfor %}
