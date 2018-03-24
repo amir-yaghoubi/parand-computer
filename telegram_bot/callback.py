@@ -1,4 +1,4 @@
-from telegram import (InlineQueryResultArticle, InputTextMessageContent, InlineKeyboardButton, InlineKeyboardMarkup)
+from telegram import (InlineQueryResultArticle, InputTextMessageContent)
 from django.db.models import Q
 from web.models import PendingGroup, Group
 import logging
