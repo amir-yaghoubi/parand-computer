@@ -215,45 +215,6 @@
 
 </footer>
 
-
-{% if not user.is_authenticated %}
-    <!-- Login Modal -->
-    <div id="login-modal" role="dialog" tabindex="-1" class="modal fade rtl">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-
-                <!-- modal header -->
-                <div class="modal-header">
-                    <h5 class="modal-title">ورود</h5>
-                    <button type='button' class='close' data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <!-- modal header -->
-
-                <div class="modal-body">
-                    <form class="needs-validation" id="login_form" method="POST" action="."
-                          data-url="{% url 'panel:login' %}" novalidate>
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="form_username">نام کاربری</label>
-                            <input minlength="4" type="text" class="form-control" id="form_username" required>
-                            <div class="invalid-feedback">نام کاربری شما نامعتبر می‌باشد</div>
-                        </div>
-                        <div class="form-group">
-                            <label for="form_password">گذرواژه</label>
-                            <input minlength="6" type="password" class="form-control" id="form_password" required>
-                            <div class="invalid-feedback">گذرواژه شما نامعتبر می‌باشد</div>
-                        </div>
-                        <button type="submit" class="btn-theme-invert">ورود</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Login Modal -->
-{% endif %}
-
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
