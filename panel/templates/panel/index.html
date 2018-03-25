@@ -59,91 +59,118 @@
 
         <div class="my-card">
             <h2 class="my-card-header">گروه‌های در حال انتظار برای ثبت</h2>
-            <div class="table-responsive-sm">
-
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">نام گروه</th>
-                        <th scope="col">ادمین</th>
-                        <th scope="col">زمان ثبت درخواست</th>
-                        <th scope="col">آخرین بروزرسانی</th>
-                        <th scope="col">دستورات</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for gp in pending %}
+            {% if pending %}
+                <div class="table-responsive-sm">
+                    <table class="table">
+                        <thead>
                         <tr>
-                            <td>{{ gp.title }}</td>
-                            <td>{{ gp.admin_username }}</td>
-                            <td>{{ gp.created_date|naturaltime }}</td>
-                            <td>{{ gp.update_date|naturaltime }}</td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <a class="btn btn-success" href="{% url 'panel:group-approve' gp.slug %}"
-                                       data-toggle="tooltip" data-placement="bottom" title="تایید این گروه"><i
-                                            class="fas fa-check"></i></a>
-
-                                    <a class="btn btn-danger" href="{% url 'panel:group-deny' gp.slug %}"
-                                       data-toggle="tooltip" data-placement="bottom" title="حذف این گروه"><i
-                                            class="fas fa-trash-alt"></i></a>
-
-                                    <form action="{% url 'panel:group-update' gp.slug %}" method="POST">
-                                        {% csrf_token %}
-                                        <button class="btn btn-primary" type="submit"
-                                                data-toggle="tooltip"
-                                                data-placement="bottom" title="بروزرسانی نام گروه"><i
-                                                class="fas fa-sync"></i></button>
-                                    </form>
-
-                                    <form action="{% url 'panel:group-request-name-change' gp.slug %}" method="POST">
-                                        {% csrf_token %}
-                                        <button class="btn btn-info" type="submit"
-                                                data-toggle="tooltip" data-placement="bottom"
-                                                title="درخواست تغییر نام گروه"><i class="fas fa-edit"></i></button>
-                                    </form>
-
-                                </div>
-                            </td>
+                            <th scope="col">نام گروه</th>
+                            <th scope="col">ادمین</th>
+                            <th scope="col">زمان ثبت درخواست</th>
+                            <th scope="col">آخرین بروزرسانی</th>
+                            <th scope="col">دستورات</th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                        {% for gp in pending %}
+                            <tr>
+                                <td>{{ gp.title }}</td>
+                                <td>{{ gp.admin_username }}</td>
+                                <td>{{ gp.created_date|naturaltime }}</td>
+                                <td>{{ gp.update_date|naturaltime }}</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a class="btn btn-success" href="{% url 'panel:group-approve' gp.slug %}"
+                                           data-toggle="tooltip" data-placement="bottom" title="تایید این گروه"><i
+                                                class="fas fa-check"></i></a>
+
+                                        <a class="btn btn-danger" href="{% url 'panel:group-deny' gp.slug %}"
+                                           data-toggle="tooltip" data-placement="bottom" title="حذف این گروه"><i
+                                                class="fas fa-times"></i></a>
+
+                                        <form action="{% url 'panel:group-update' gp.slug %}" method="POST">
+                                            {% csrf_token %}
+                                            <button class="btn btn-primary" type="submit"
+                                                    data-toggle="tooltip"
+                                                    data-placement="bottom" title="بروزرسانی نام گروه"><i
+                                                    class="fas fa-sync"></i></button>
+                                        </form>
+
+                                        <form action="{% url 'panel:group-request-name-change' gp.slug %}"
+                                              method="POST">
+                                            {% csrf_token %}
+                                            <button class="btn btn-info" type="submit"
+                                                    data-toggle="tooltip" data-placement="bottom"
+                                                    title="درخواست تغییر نام گروه"><i class="fas fa-edit"></i></button>
+                                        </form>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class='group-empty'>
+                    <div class="display-1"><i class="far fa-frown"></i></div>
+                    در حال حاضر هیچ گروهی در انتظار ثبت نمی‌باشد.
+                </div>
+            {% endif %}
         </div>
 
 
         <div class="my-card">
             <h2 class="my-card-header">گروه‌های تایید شده سایت</h2>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>نام گروه</th>
-                    <th>نام یا نام کاربری ادمین</th>
-                    <th>زمان ثبت درخواست</th>
-                    <th>فعال سازی</th>
-                    <th>درخواست تغییر نام</th>
-                    <th>عدم تایید</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for gp in verified %}
-                    <tr>
-                        <td>{{ gp.title }}</td>
-                        <td>{{ gp.admin_username }}</td>
-                        <td>{{ gp.created_date }}</td>
-                        <td><a href="{% url 'panel:group-approve' gp.slug %}">activate</a></td>
-                        <td>
-                            <form action="{% url 'panel:group-request-name-change' gp.slug %}" method="POST">
-                                {% csrf_token %}
-                                <button type="submit">request</button>
-                            </form>
-                        </td>
-                        <td><a href="{% url 'panel:group-deny' gp.slug %}">deny</a></td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            {% if verified %}
+                <div class="table-responsive-sm">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">نوع گروه</th>
+                            <th scope="col">نام گروه</th>
+                            <th scope="col">نام استاد</th>
+                            <th scope="col">تاریخ ثبت</th>
+                            <th scope="col">وضعیت نمایش</th>
+                            <th scope="col">دستورات</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for gp in verified %}
+                            <tr>
+                                <td>{{ gp.get_category_display }}</td>
+                                <td>{{ gp.title }}</td>
+                                <td>{{ gp.teacher }}</td>
+                                <td>{{ gp.created_date|naturalday }}</td>
+                                {% if gp.active %}
+                                    <td class="text-success">نمایش</td>
+                                {% else %}
+                                    <td class="text-danger">عدم نمایش</td>
+                                {% endif %}
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a class="btn btn-primary" href="#"><i class="fas fa-pencil-alt"></i></a>
+                                        {% if gp.active %}
+                                            <a class="btn btn-info" href="#"><i class="far fa-eye-slash"></i></a>
+                                        {% else %}
+                                            <a class="btn btn-info" href="#"><i class="fas fa-eye"></i></a>
+                                        {% endif %}
+                                        <a class="btn btn-dark" href="#"><i class="fas fa-comment"></i></a>
+                                        <a class="btn btn-warning" href="#"><i class="fas fa-sync"></i></a>
+                                        <a class="btn btn-danger" href="#"><i class="fas fa-times"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class='group-empty'>
+                    <div class="display-1"><i class="far fa-frown"></i></div>
+                    در حال حاضر هیچ گروهی در لیست گروه‌های تایید شده نمی‌باشد.
+                </div>
+            {% endif %}
         </div>
 
     </div>
