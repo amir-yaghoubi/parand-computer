@@ -1,7 +1,7 @@
 from django.db import models
 from django.shortcuts import reverse
 from utils.path_convertor import GroupSlug, NormalSlug
-
+from datetime import datetime
 
 class Teacher(models.Model):
     name = models.CharField(max_length=200, verbose_name='نام استاد')
@@ -94,6 +94,9 @@ class PendingGroup(models.Model):
             # یک اسلاگ براش تولید بشه
             self.slug = self._generate_unique_slug()
 
+        # تغییر آخرین زمان بروزرسانی به زمان الان
+        self.update_date = datetime.now()
+
         super().save()
 
     def get_absolute_url(self):
@@ -104,4 +107,4 @@ class PendingGroup(models.Model):
 
     class Meta:
         verbose_name_plural = "گروه‌های درحال انتظار"
-        ordering = ['-created_date']
+        ordering = ['-update_date']

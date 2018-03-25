@@ -86,3 +86,11 @@ def send_group_status_notification(chat_id, status_code):
         bot.sendMessage(chat_id, msg)
 
     return
+
+
+def get_group_name(chat_id):
+    bot = Bot(app_settings.BOT_TOKEN)
+
+    group = bot.get_chat(chat_id)
+
+    return group.title

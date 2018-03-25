@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, RedirectView, CreateView, DeleteView
 from django.views.decorators.http import require_POST
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, redirect
-from telegram_bot.actions import send_group_status_notification, get_group_link
+from telegram_bot.actions import send_group_status_notification, get_group_link, get_group_name
 from web.models import PendingGroup, Group, Teacher
 from .forms import ApproveGroupForm
 from .mixins import LoginRequiredMixin
@@ -99,6 +99,17 @@ def request_name_change(request, slug):
     pending_group = get_object_or_404(PendingGroup, slug=slug)
 
     send_group_status_notification(pending_group.chat_id, 50)
+
+    return redirect('panel:index')
+
+
+@require_POST
+def update_pending_group(request, slug):
+    pending_group = get_object_or_404(PendingGroup, slug=slug)
+
+    new_name = get_group_name(pending_group.chat_id)
+    pending_group.title = new_name
+    pending_group.save()
 
     return redirect('panel:index')
 
