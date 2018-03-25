@@ -75,6 +75,7 @@ class PendingGroup(models.Model):
     admin_id = models.IntegerField(verbose_name='شناسه ادمین', null=True)
     admin_username = models.CharField(verbose_name='نام کاربری ادمین', max_length=50,  default="تعریف نشده", null=True)
     created_date = models.DateTimeField(verbose_name='تاریخ ایجاد', auto_now_add=True)
+    update_date = models.DateTimeField(verbose_name='آخرین بروزرسانی', auto_now_add=True)
 
     def _generate_unique_slug(self):
         slug = NormalSlug.slug_it(title=self.title)

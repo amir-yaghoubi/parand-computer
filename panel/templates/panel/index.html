@@ -75,7 +75,7 @@
                             <td>{{ gp.title }}</td>
                             <td>{{ gp.admin_username }}</td>
                             <td>{{ gp.created_date|naturaltime }}</td>
-                            <td>{{ gp.created_date|naturaltime }}</td>
+                            <td>{{ gp.update_date|naturaltime }}</td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <a class="btn btn-success" href="{% url 'panel:group-approve' gp.slug %}"
