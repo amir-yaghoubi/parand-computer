@@ -96,15 +96,9 @@ def start(bot, update):
     logger.info('start commands from. chat_id: {0}, chat_type: {1}'.format(
                     update.message.chat.id, update.message.chat.type))
 
-    if update.message.chat.type == 'supergroup':
-        reply_keyboard = [['/register', '/help']]
-    else:
-        reply_keyboard = [['/get_id', '/github', '/help']]
-    
-    text = '''سلام!
-    بعد یه فکر برای یه پیغام خوشگل میکنم 😂😂😂😂😂😂'''
-    bot.sendMessage(update.message.chat_id, text=text,
-                    reply_markup=ReplyKeyboardMarkup(reply_keyboard))
+    text = 'سلام! به ربات تلگرامی کامپیوتر پرند خوش آمدید.\n'
+
+    bot.sendMessage(update.message.chat_id, text=text)
 
 
 def get_help(bot, update):
