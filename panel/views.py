@@ -14,7 +14,7 @@ from datetime import datetime
 
 def index(request):
     pending_groups = PendingGroup.objects.all()
-    verified_groups =Group.objects.all()
+    verified_groups = Group.objects.all()
     return render(request, 'panel/index.html',
                   {'pending': pending_groups, 'verified': verified_groups, 'active': 'groups'})
 
