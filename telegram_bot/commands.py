@@ -1,8 +1,9 @@
-from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from django.shortcuts import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from .app_settings import BOT_ID
 from web.models import PendingGroup, Group
+from jdatetime import GregorianToJalali
 import logging
 # set logger
 logger = logging.getLogger(__name__)
@@ -57,22 +58,29 @@ def _hit_database(model, chat_id):
 def register(bot, update):
     # پاسخ گویی تنها به سوپر گروه ها
     if update.message.chat.type != 'supergroup':
+        update.message.reply_text('❌ امکان ثبت تنها برای ابر گروه‌ها فعال می‌باشد. ❌')
         return
 
-    # TODO check for is active or more i think req.
     # بررسی وجود گروه در لیست اصلی سایت
     main_group = _hit_database(Group, update.message.chat_id)
     # در صورتی که در لیست اصلی سایت موجود باشه پیغام مربوطه ارسال میکنیم و روند ثبت گروه جدید رو متوقف میکنیم
     if main_group is not None:
-        update.message.reply_text('گروه شما در لیست گروه‌های تایید شده سایت قرار دارد و نیازی به ثبت مجدد نمی‌باشد.')
+        miladi_date = main_group.created_date
+        persian_date = GregorianToJalali(miladi_date.year, miladi_date.month, miladi_date.day)
+        persian_date = '{year}/{month}/{day}'.format(year=persian_date.jyear,
+                                                     month=persian_date.jmonth, day=persian_date.jday)
+        msg = '✅ گروه شما در سایت ثبت شده است. ✅\n' \
+              'تاریخ ثبت: {0}'.format(persian_date)
+        update.message.reply_text(msg)
         return
 
     # بررسی وجود گروه در لیست انتظار سایت
     # در صورتی که گروه در لیست انتظار سایت قرار داشت پیغام مربوطه را ارسال میکنیم و از ادامه فرایند ثبت باز میگردیم.
     pending_group = _hit_database(PendingGroup, update.message.chat_id)
     if pending_group is not None:
-        update.message.reply_text(
-            'گروه شما در انتظار تایید توسط مدیران قرار دارد، از شکیبایی شما سپاس گذاریم.')
+        msg = '⏰ در انتظار تایید ⏰\n'\
+              'گروه شما در انتظار تایید توسط ادمین‌ سایت می‌باشد.\n'
+        update.message.reply_text(msg)
         return
 
     # در صورتی که تا این قسمت پیش آمده باشیم یعنی گروه باید فرایند ثبت نام را انجام دهد
@@ -82,20 +90,34 @@ def register(bot, update):
     our_bot, group_creator = _group_admins(bot, update.message.chat_id)
     # اگر بات ما دسترسی ادمین نداشت پیغام خطا و توقف فرایند
     if our_bot is None:
-        update.message.reply_text('''لطفا ربات تلگرامی ما را ادمین نمایید و دسترسی‌های های خواسته شده را به ربات بدهید.
-        دسترسی invite users via link''')
+        msg = '⛔️⛔️ خطا ⛔️⛔️\n'\
+                '👈🏻 عدم دسترسی به <b>Invite users via link</b> 👉🏻'\
+                '\nلطفا ربات تلگرامی ما را ادمین گروه نمایید و دسترسی فوق را برای آن فراهم نمایید.'
+        update.message.reply_text(msg, parse_mode=ParseMode.HTML)
         return
 
     # اگه بات ما دسترسی به لینک گروه نداشت پیغام خطا و توقف فرایند
     if not our_bot.can_invite_users:
-        update.message.reply_text('دسترسی invite users via link برای ربات فراهم نیست، بعد از فراهم کردن این دسترسی مجددا تلاش نمایید.')
+        msg = '⛔️⛔️ خطا ⛔️⛔️\n'\
+                '👈🏻 عدم دسترسی به <b>Invite users via link</b> 👉🏻'\
+                'لطفا پس از فراهم کردن دسترسی فوق مجددا تلاش نمایید. 😉'
+        update.message.reply_text(msg, parse_mode=ParseMode.HTML)
         return
 
     # اضافه کردن گروه به لیست انتظار
     chat = update.message.chat
     PendingGroup.objects.create(title=chat.title, chat_id=chat.id, admin_id=group_creator.user.id,
                                 admin_username=group_creator.user.name)
-    update.message.reply_text('گروه شما در لیست انتظار قرار گرفت، بعد از تایید توسط مدیران به سایت اضافه می‌گردد.')
+
+    # ارسال پیام ثبت گروه
+    msg = '❇️ گروه شما ثبت گردید. ❇️\n'\
+          'بعد از تایید توسط ادمین برای عموم در دسترسی قرار می‌گیرد.\n' \
+          '\n' \
+          '❗️ توجه ❗️\n' \
+          '▪️ نام گروه باید نامی گویا باشد، یعنی شامل نام کامل درس و نام استاد باشد.\n' \
+          '▪️ دسترسی‌های خواسته شده برای کارکردن ربات الزامی می‌باشد و در صورتی که بعد از' \
+          ' ثبت در سایت دسترسی‌ها گرفته شود گروه شما از سایت حذف می‌گردد.‌'
+    update.message.reply_text(msg)
 
 
 def start(bot, update):
