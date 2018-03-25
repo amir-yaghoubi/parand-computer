@@ -51,6 +51,9 @@
     padding-left: 16px;
     padding-right: 16px;
   }
+  .header-text h4 {
+    font-size: 1.2rem;
+  }
 }
 .header-text h1 {
   margin-bottom: 24px;
