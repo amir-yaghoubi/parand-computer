@@ -40,6 +40,12 @@ def _group_admins(bot, chat_id):
 
 
 def _hit_database(model, chat_id):
+    """
+    check if chat_id is in the database or note
+    :param model: Model (Group, PendingGroup)
+    :param chat_id: Int
+    :return: Model Object or None on failure.
+    """
     result = None
     try:
         result = model.objects.get(chat_id=chat_id)
