@@ -55,6 +55,22 @@
 .header-text h1 {
   margin-bottom: 24px;
 }
+.header-text a {
+  font-style: italic;
+  margin-left: 2px;
+  margin-right: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 2px #fff dashed;
+  transition: background 0.3;
+  -moz-transition: background 0.3;
+  -webkit-transition: background 0.3;
+}
+.header-text a:hover {
+  background: #2a4d5a;
+}
 
 .navbar {
   background: transparent;
