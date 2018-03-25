@@ -50,9 +50,9 @@ class ApproveGroupView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('panel:index')
 
     def get_initial(self):
+        # دریافت گروه نام گروه در حال انتظار برای پر کردن فرم اولیه
         pending = get_object_or_404(PendingGroup, slug=self.kwargs['slug'])
-        print(pending)
-        return {'group': pending}
+        return {'title': pending.title}
 
     def form_valid(self, form):
         pending = get_object_or_404(PendingGroup, slug=self.kwargs['slug'])
