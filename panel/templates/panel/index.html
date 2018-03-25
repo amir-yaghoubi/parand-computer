@@ -1,38 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
+{% load static %}
+{% load humanize %}
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+    <link rel='stylesheet' href="{% static 'css/bootstrap-rtl.min.css' %}"/>
+    <link rel='stylesheet' href="{% static 'panel/css/index.min.css' %}"/>
     <title>پنل مدیریت سایت</title>
 </head>
 <body>
 
-<table style="border: 2px #777 solid;">
-    <thead>
-    <tr>
-        <th>title</th>
-        <th>admin</th>
-        <th>date</th>
-        <th>activate</th>
-        <th>request name change</th>
-        <th>deny</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for gp in pending %}
-        <tr>
-            <td>{{ gp.title }}</td>
-            <td>{{ gp.admin_username }}</td>
-            <td>{{ gp.created_date }}</td>
-            <td><a href="{% url 'panel:group-approve' gp.slug %}">activate</a></td>
-            <td>
-                <form action="{% url 'panel:group-request-name-change' gp.slug %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit">request</button>
-                </form></td>
-            <td><a href="{% url 'panel:group-deny' gp.slug %}">deny</a></td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+<!-- header -->
+<header>
+    <nav class="navbar navbar-expand-sm navbar-dark navbar-theme rtl">
+               <!-- hamburger button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+                aria-controls="navbarToggle"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- end of hamburger button -->
+
+
+        <div class="collapse navbar-collapse" id="navbarToggle">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link {% if active == 'groups' %}active{% endif %}" href="{% url 'panel:index' %}">مدیریت گروه‌ها</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active == 'teachers' %}active{% endif %}" href="">مدیریت اساتید</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active == 'donates' %}active{% endif %}" href="">حمایت‌ها</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-right">
+                <li class="nav-item">
+                    <a class="btn btn-theme" href="{% url 'panel:logout' %}">خروج</a>
+                </li>
+            </ul>
+
+        </div>
+
+    </nav>
+</header>
+
+<!-- end of header -->
+
+
+<main>
+
+    <div class="container rtl">
+
+        <div class="my-card">
+            <h2 class="my-card-header">گروه‌های در حال انتظار برای ثبت</h2>
+            <div class="table-responsive-sm">
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">نام گروه</th>
+                        <th scope="col">ادمین</th>
+                        <th scope="col">زمان ثبت درخواست</th>
+                        <th scope="col">آخرین بروزرسانی</th>
+                        <th scope="col">دستورات</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for gp in pending %}
+                        <tr>
+                            <td>{{ gp.title }}</td>
+                            <td>{{ gp.admin_username }}</td>
+                            <td>{{ gp.created_date|naturaltime }}</td>
+                            <td>{{ gp.created_date|naturaltime }}</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a class="btn btn-success" href="{% url 'panel:group-approve' gp.slug %}"
+                                       data-toggle="tooltip" data-placement="bottom" title="تایید این گروه"><i
+                                            class="fas fa-check"></i></a>
+
+                                    <a class="btn btn-danger" href="{% url 'panel:group-deny' gp.slug %}"
+                                       data-toggle="tooltip" data-placement="bottom" title="حذف این گروه"><i
+                                            class="fas fa-trash-alt"></i></a>
+
+                                    <a class="btn btn-primary" href="#"
+                                       data-toggle="tooltip" data-placement="bottom" title="بروزرسانی نام گروه"><i
+                                            class="fas fa-sync"></i></a>
+
+                                    <form action="{% url 'panel:group-request-name-change' gp.slug %}" method="POST">
+                                        {% csrf_token %}
+                                        <button class="btn btn-info" type="submit"
+                                                data-toggle="tooltip" data-placement="bottom"
+                                                title="درخواست تغییر نام گروه"><i class="fas fa-edit"></i></button>
+                                    </form>
+
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="my-card">
+            <h2 class="my-card-header">گروه‌های تایید شده سایت</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>نام گروه</th>
+                    <th>نام یا نام کاربری ادمین</th>
+                    <th>زمان ثبت درخواست</th>
+                    <th>فعال سازی</th>
+                    <th>درخواست تغییر نام</th>
+                    <th>عدم تایید</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for gp in verified %}
+                    <tr>
+                        <td>{{ gp.title }}</td>
+                        <td>{{ gp.admin_username }}</td>
+                        <td>{{ gp.created_date }}</td>
+                        <td><a href="{% url 'panel:group-approve' gp.slug %}">activate</a></td>
+                        <td>
+                            <form action="{% url 'panel:group-request-name-change' gp.slug %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit">request</button>
+                            </form>
+                        </td>
+                        <td><a href="{% url 'panel:group-deny' gp.slug %}">deny</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</main>
+
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 </body>
 </html>
