@@ -58,8 +58,11 @@ def register(bot, update):
     if main_group is not None:
         miladi_date = main_group.created_date
         persian_date = GregorianToJalali(miladi_date.year, miladi_date.month, miladi_date.day)
+        
         persian_date = '{year}/{month}/{day}'.format(year=persian_date.jyear,
-                                                     month=persian_date.jmonth, day=persian_date.jday)
+                                                     month=persian_date.jmonth,
+                                                     day=persian_date.jday)
+
         msg = '✅ گروه شما در سایت ثبت شده است. ✅\n' \
               'تاریخ ثبت: {0}'.format(persian_date)
         update.message.reply_text(msg)
