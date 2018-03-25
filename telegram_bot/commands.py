@@ -9,15 +9,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def get_id(bot, update):
-    logger.info('chat_id:{} requested their chat id. chat type: {}'.format(
-                    update.message.chat.id, update.message.chat.type))
-
-    chat = bot.get_chat(update.message.chat_id)
-    our_bot = bot.getMe()
-    update.message.reply_text('chat_id: {0}\nchat_type: {1}\nbot_id: {2}'.format(chat.id, chat.type, our_bot.id))
-
-
 def _group_admins(bot, chat_id):
     """get bot, chat_id
     return: tuple (user Object, user object) => (our_bot, creatorUser)"""

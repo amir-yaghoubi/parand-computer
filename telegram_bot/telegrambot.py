@@ -24,7 +24,6 @@ def main():
     dp.add_handler(CommandHandler("register", commands.register))
     dp.add_handler(CallbackQueryHandler(check_group_name, pattern=r'^gp_verify:name$'))
     dp.add_handler(InlineQueryHandler(search_group_callback))
-    dp.add_handler(CommandHandler('get_id', commands.get_id))
 
     # log all errors
     dp.add_error_handler(commands.error)
