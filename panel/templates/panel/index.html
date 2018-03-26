@@ -1,6 +1,6 @@
 {% extends 'panel/panel_base.html' %}
 {% load humanize %}
-
+{% load telegram %}
 {% block title %}مدیریت سایت{% endblock %}
 
 {% block header %}
@@ -29,7 +29,7 @@
                         {% for gp in pending %}
                             <tr>
                                 <td>{{ gp.title }}</td>
-                                <td>{{ gp.admin_username }}</td>
+                                <td style="direction: ltr">{{ gp.admin_username|t_link|safe }}</td>
                                 <td>{{ gp.created_date|naturaltime }}</td>
                                 <td>{{ gp.update_date|naturaltime }}</td>
                                 <td>
