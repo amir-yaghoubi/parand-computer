@@ -107,5 +107,3 @@ def get_help(bot, update):
     bot.sendMessage(update.message.chat_id, text=help_text, reply_markup=keyboard_markup)
 
 
-def error(bot, update, err):
-    logger.warning('Update "%s" caused error "%s"', update, err)

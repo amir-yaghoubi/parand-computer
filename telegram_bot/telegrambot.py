@@ -1,6 +1,7 @@
 from telegram.ext import CommandHandler, CallbackQueryHandler, InlineQueryHandler
 from django_telegrambot.apps import DjangoTelegramBot
 from .callback import check_group_name, search_group_callback
+from .errors import error_handler_hook
 from . import commands
 import logging
 
@@ -27,4 +28,4 @@ def main():
     dp.add_handler(InlineQueryHandler(search_group_callback))
 
     # log all errors
-    dp.add_error_handler(commands.error)
+    dp.add_error_handler(error_handler_hook)
