@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.test import TestCase
 
-from utils.path_convertor import GroupSlug
+from parand.path_convertor import GroupSlug
 from web.models import Teacher, Group, PendingGroup
 
 

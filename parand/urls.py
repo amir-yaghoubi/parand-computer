@@ -13,11 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include, register_converter
 from django.conf import settings
 from django.conf.urls.static import static
-from utils.path_convertor import GroupSlug, NormalSlug
+from django.contrib import admin
+from django.urls import path, include, register_converter
+
+from .path_convertor import GroupSlug, NormalSlug
 
 # register our slug (unicode slug)
 register_converter(GroupSlug, 'groupSlug')

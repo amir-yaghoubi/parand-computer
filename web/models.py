@@ -1,7 +1,8 @@
-from django.db import models
-from django.shortcuts import reverse
-from utils.path_convertor import GroupSlug, NormalSlug
 from datetime import datetime
+
+from django.db import models
+
+from parand.path_convertor import GroupSlug, NormalSlug
 
 
 class Teacher(models.Model):
