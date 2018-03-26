@@ -34,9 +34,11 @@
                     <div class="form-group">
                         <label for="id_username">نام کاربری: </label>
                         <input class="form-control" type="text" name="username" autofocus="" maxlength="254" required="" id="id_username"></div>
+                        {{ form.username.errors }}
                     <div class="form-group">
                         <label for="id_password">گذرواژه: </label>
                         <input class="form-control" type="password" name="password" required="" id="id_password">
+                        {{ form.password.errors }}
                     </div>
                     <button class="btn-theme-invert btn-block" type="submit">ورود</button>
                 </form>
