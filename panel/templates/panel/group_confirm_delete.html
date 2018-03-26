@@ -1,6 +1,6 @@
 {% extends 'panel/panel_base.html' %}
 
-{% block title %}رد درخواست {{ pendinggroup.title }}{% endblock %}
+{% block title %}حذف گروه {{ group.title }} {{ group.teacher }}{% endblock %}
 
 {% block header %}
     {% include 'panel/header.html' with active='groups' %}
@@ -13,7 +13,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8 text-center">
                 <div class="alert alert-danger">
-                    <h4 class="alert-heading">آیا از رد درخواست <span class="text-danger">{{ pendinggroup.title }} </span>
+                    <h4 class="alert-heading">آیا از حذف گروه <span class="text-danger">{{ group.title }} {{ group.teacher }}</span>
                         مطمئن هستید؟!!</h4>
                     <hr>
                     <form action="" method="POST">

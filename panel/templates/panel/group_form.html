@@ -1,0 +1,92 @@
+{% extends 'panel/panel_base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block header %}
+    {% include 'panel/header.html' with active='groups' %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container rtl">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-12">
+
+                <div class="my-card">
+                    <h2 class="my-card-header">{{ page_title }}</h2>
+                    <div class="card-body">
+
+                        {# Error section#}
+                        {% if form.non_field_errors %}
+                            <div class="errorlist">
+                                <ul>
+                                    {% for error in form.non_field_errors %}
+                                        <li>
+                                            <strong>{{ error|escape }}</strong>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        {# Error section#}
+
+
+                        <form action="" method="POST">
+                            {% csrf_token %}
+
+                            <div class="form-group form-inline">
+                                <label for="id_title">نام گروه: </label>
+
+                                <input class="form-control" type="text" name="title" autofocus="" maxlength="200"
+                                       id="id_title"
+                                       value="{{ form.title.value }}" required>
+
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="id_teacher">نام استاد: </label>
+                                <select class="form-control" name="teacher" required="" id="id_teacher">
+                                    {% for i, value in form.fields.teacher.choices %}
+                                        <option value="{{ i }}"{% if form.teacher.value == i %}
+                                                selected{% endif %}>{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="id_category">نوع گروه: </label>
+                                <select class="form-control" name="category" required="" id="id_category">
+                                    {% for i,value in form.fields.category.choices %}
+                                        <option value="{{ i }}"
+                                                {% if form.category.value == i %}
+                                                selected{% endif %} >{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="id_active">نمایش در سایت: </label>
+                                <input class="form-control" type="checkbox" name="active" autofocus="" maxlength="200"
+                                       id="id_active" {% if form.active.value %}checked{% endif %} required>
+                            </div>
+
+                            <div class="btn-group btn-group-lg">
+                                <a class="btn btn-danger" href="{% url 'panel:index' %}">بازگشت</a>
+                                <button class="btn btn-success" type="submit">ثبت</button>
+                            </div>
+
+                        </form>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+{% endblock %}

@@ -3,6 +3,7 @@ from django.shortcuts import reverse
 from utils.path_convertor import GroupSlug, NormalSlug
 from datetime import datetime
 
+
 class Teacher(models.Model):
     name = models.CharField(max_length=200, verbose_name='نام استاد')
     email = models.EmailField(verbose_name='ایمیل')
@@ -31,8 +32,8 @@ class Group(models.Model):
     admin_id = models.IntegerField(verbose_name='شناسه ادمین', null=True)
     admin_username = models.CharField(verbose_name='نام کاربری ادمین', max_length=50,  default="تعریف نشده", null=True)
 
-    teacher = models.ForeignKey(Teacher, on_delete='CASCADE')
-    category = models.CharField(max_length=1, choices=category_options)
+    teacher = models.ForeignKey(Teacher, on_delete='CASCADE', verbose_name='نام استاد')
+    category = models.CharField(verbose_name='نوع گروه', max_length=1, choices=category_options)
 
     active = models.BooleanField(verbose_name='نمایش در سایت', default=True)
 
@@ -56,9 +57,6 @@ class Group(models.Model):
             self.slug = self._generate_unique_slug()
 
         super().save()
-
-    def get_absolute_url(self):
-        return reverse('web:get_group_link', {'slug': self.slug})
 
     def __str__(self):
         return '{0}-{1}'.format(self.title, self.get_category_display())
@@ -98,9 +96,6 @@ class PendingGroup(models.Model):
         self.update_date = datetime.now()
 
         super().save()
-
-    def get_absolute_url(self):
-        return reverse('web:get_group_link', {'slug': self.slug})
 
     def __str__(self):
         return 'گروه {0} ساخته شده توسط {1}'.format(self.title, self.admin_username)

@@ -94,3 +94,12 @@ def get_group_name(chat_id):
     group = bot.get_chat(chat_id)
 
     return group.title
+
+
+def leave_group(chat_id):
+    bot = Bot(app_settings.BOT_TOKEN)
+
+    msg = '❌❌ گروه شما از سایت حذف گردید. ❌❌'
+
+    bot.send_message(chat_id, msg)
+    bot.leave_chat(chat_id)

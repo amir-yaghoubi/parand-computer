@@ -1,59 +1,13 @@
-<!DOCTYPE html>
-<html lang="fa">
-{% load static %}
+{% extends 'panel/panel_base.html' %}
 {% load humanize %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
-    <link rel='stylesheet' href="{% static 'css/bootstrap-rtl.min.css' %}"/>
-    <link rel='stylesheet' href="{% static 'panel/css/index.min.css' %}"/>
-    <title>پنل مدیریت سایت</title>
-</head>
-<body>
 
-<!-- header -->
-<header>
-    <nav class="navbar navbar-expand-sm navbar-dark navbar-theme rtl">
-        <!-- hamburger button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
-                aria-controls="navbarToggle"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- end of hamburger button -->
+{% block title %}مدیریت سایت{% endblock %}
 
+{% block header %}
+    {% include 'panel/header.html' with active='groups' %}
+{% endblock %}
 
-        <div class="collapse navbar-collapse" id="navbarToggle">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link {% if active == 'groups' %}active{% endif %}" href="{% url 'panel:index' %}">مدیریت
-                        گروه‌ها</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if active == 'teachers' %}active{% endif %}" href="">مدیریت اساتید</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if active == 'donates' %}active{% endif %}" href="">حمایت‌ها</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav navbar-right">
-                <li class="nav-item">
-                    <a class="btn btn-theme" href="{% url 'web:index' %}">مشاهده وب‌گاه</a>
-                    <a class="btn btn-theme" href="{% url 'panel:logout' %}">خروج</a>
-                </li>
-            </ul>
-
-        </div>
-
-    </nav>
-</header>
-
-<!-- end of header -->
-
-
-<main>
+{% block content %}
 
     <div class="container rtl">
 
@@ -149,15 +103,40 @@
                                 {% endif %}
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a class="btn btn-primary" href="#"><i class="fas fa-pencil-alt"></i></a>
-                                        {% if gp.active %}
-                                            <a class="btn btn-info" href="#"><i class="far fa-eye-slash"></i></a>
-                                        {% else %}
-                                            <a class="btn btn-info" href="#"><i class="fas fa-eye"></i></a>
-                                        {% endif %}
-                                        <a class="btn btn-dark" href="#"><i class="fas fa-comment"></i></a>
-                                        <a class="btn btn-warning" href="#"><i class="fas fa-sync"></i></a>
-                                        <a class="btn btn-danger" href="#"><i class="fas fa-times"></i></a>
+                                        <a class="btn btn-primary" href="{% url 'panel:group-edit' gp.slug %}"
+                                        data-toggle="tooltip" data-placement="bottom" title="ویرایش گروه">
+                                            <i class="fas fa-pencil-alt"></i></a>
+
+                                        <!-- Toggle active -->
+                                        <form action="{% url 'panel:group-toggle-active' gp.slug %}" method="POST">
+                                            {% csrf_token %}
+                                            <button class="btn btn-info" type="submit" data-toggle="tooltip" data-placement="bottom" title="نمایش/عدم نمایش">
+                                                {% if gp.active %}
+                                                    <i class="far fa-eye-slash"></i>
+                                                {% else %}
+                                                    <i class="fas fa-eye"></i>
+                                                {% endif %}
+                                            </button>
+                                        </form>
+                                        <!-- Toggle active -->
+
+                                        <a class="btn btn-dark" href="{% url 'panel:group-send-message' gp.slug %}"
+                                        data-toggle="tooltip" data-placement="bottom" title="ارسال پیام در گروه" >
+                                            <i class="fas fa-comment"></i></a>
+
+                                        <!-- Invoke Group link -->
+                                        <form action="{% url 'panel:group-invoke-link' gp.slug %}" method="POST">
+                                            {% csrf_token %}
+                                            <button class="btn btn-warning" type="submit"
+                                            data-toggle="tooltip" data-placement="bottom" title="دریافت مجدد لینک گروه" >
+                                                <i class="fas fa-sync"></i>
+                                            </button>
+                                        </form>
+                                        <!-- Invoke Group link -->
+
+                                        <a class="btn btn-danger" href="{% url 'panel:group-delete' gp.slug %}"
+                                        data-toggle="tooltip" data-placement="bottom" title="حذف گروه">
+                                            <i class="fas fa-times"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -174,24 +153,5 @@
         </div>
 
     </div>
-</main>
 
-
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
-</script>
-</body>
-</html>
+{% endblock %}

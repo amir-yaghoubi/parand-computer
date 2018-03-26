@@ -1,17 +1,19 @@
 from django.shortcuts import render
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
-from django.views.generic import FormView, RedirectView, CreateView, DeleteView
+from django.views.generic import FormView, RedirectView, CreateView, DeleteView, UpdateView
 from django.views.decorators.http import require_POST
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, redirect
-from telegram_bot.actions import send_group_status_notification, get_group_link, get_group_name
+from telegram_bot.actions import (send_group_status_notification, get_group_link, get_group_name, leave_group)
 from web.models import PendingGroup, Group, Teacher
 from .forms import ApproveGroupForm
-from .mixins import LoginRequiredMixin
 from datetime import datetime
 
 
+@login_required
 def index(request):
     pending_groups = PendingGroup.objects.all()
     verified_groups = Group.objects.all()
@@ -47,7 +49,7 @@ class LogoutView(RedirectView):
 
 
 class ApproveGroupView(LoginRequiredMixin, CreateView):
-    template_name = 'panel/form.html'
+    template_name = 'panel/group_form.html'
     form_class = ApproveGroupForm
     success_url = reverse_lazy('panel:index')
 
@@ -55,6 +57,11 @@ class ApproveGroupView(LoginRequiredMixin, CreateView):
         # دریافت گروه نام گروه در حال انتظار برای پر کردن فرم اولیه
         pending = get_object_or_404(PendingGroup, slug=self.kwargs['slug'])
         return {'title': pending.title}
+
+    def get_context_data(self, **kwargs):
+        context = {'page_title': 'تایید گروه در حال انتظار'}
+        context.update(kwargs)
+        return super(ApproveGroupView, self).get_context_data(**context)
 
     def form_valid(self, form):
         pending = get_object_or_404(PendingGroup, slug=self.kwargs['slug'])
@@ -95,6 +102,7 @@ class DenyGroupView(LoginRequiredMixin, DeleteView):
 
 
 @require_POST
+@login_required
 def request_name_change(request, slug):
     pending_group = get_object_or_404(PendingGroup, slug=slug)
 
@@ -104,6 +112,7 @@ def request_name_change(request, slug):
 
 
 @require_POST
+@login_required
 def update_pending_group(request, slug):
     pending_group = get_object_or_404(PendingGroup, slug=slug)
 
@@ -112,6 +121,65 @@ def update_pending_group(request, slug):
     pending_group.save()
 
     return redirect('panel:index')
+
+
+class EditGroupView(LoginRequiredMixin, UpdateView):
+    model = Group
+    fields = ['title', 'teacher', 'category', 'active']
+    template_name = 'panel/group_form.html'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+    success_url = reverse_lazy('panel:index')
+
+    def form_valid(self, form):
+        # برای تولید ایجاد اسلاگ جدید بعد از ویرایش
+        form.instance.slug = None
+        return super(EditGroupView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = {'page_title': 'ویرایش گروه ثبت شده'}
+        context.update(kwargs)
+        return super(EditGroupView, self).get_context_data(**context)
+
+
+@require_POST
+@login_required
+def group_toggle_active(request, slug):
+    group = get_object_or_404(Group, slug=slug)
+    group.active = not group.active
+    group.save()
+
+    return redirect('panel:index')
+
+
+@require_POST
+@login_required
+def group_invoke_link(request, slug):
+    group = get_object_or_404(Group, slug=slug)
+    group.link = get_group_link(group.chat_id)
+    group.save()
+
+    return redirect('panel:index')
+
+
+class DeleteGroupView(LoginRequiredMixin, DeleteView):
+    model = Group
+    template_name = 'panel/group_confirm_delete.html'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+    success_url = reverse_lazy('panel:index')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        chat_id = self.object.chat_id
+
+        try:
+            leave_group(chat_id)
+        except Exception:
+            pass
+
+        self.object.delete()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 def placeholder(request):
