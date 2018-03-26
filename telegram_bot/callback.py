@@ -19,7 +19,7 @@ def search_group_callback(bot, update):
 
     # ایجاد خروجی مطلوب تلگرام از گروه‌های یافت شده
     for group in groups:
-        title = '{0} استاد {1}'.format(group.title, group.teacher.name)
+        title = '📌  گروه {0} 👤  استاد {1}'.format(group.title, group.teacher.name)
         content = InputTextMessageContent('📌 گروه: {0}\n👤 استاد: {1}\n📎 لینک: {2}'
                                           .format(group.title, group.teacher.name, group.link))
 
