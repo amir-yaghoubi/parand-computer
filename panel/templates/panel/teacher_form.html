@@ -1,0 +1,72 @@
+{% extends 'panel/panel_base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block header %}
+    {% include 'panel/header.html' with active='groups' %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container rtl">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-12">
+
+                <div class="my-card">
+                    <h2 class="my-card-header">{{ page_title }}</h2>
+                    <div class="card-body">
+
+                        {# Error section#}
+                        {% if form.non_field_errors %}
+                            <div class="errorlist">
+                                <ul>
+                                    {% for error in form.non_field_errors %}
+                                        <li>
+                                            <strong>{{ error|escape }}</strong>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        {# Error section#}
+
+
+                        <form action="" method="POST">
+                            {% csrf_token %}
+
+                            <div class="form-group">
+                                <label for="id_name">نام استاد: </label>
+                                <input class="form-control" type="text" name="name" autofocus="" maxlength="200"
+                                       id="id_name"
+                                       value="{{ form.name.value }}" required>
+                                {{ form.name.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_email">ایمیل: </label>
+                                <input class="form-control" type="email" name="email" autofocus="" maxlength="254"
+                                       id="id_email"
+                                       value="{{ form.email.value }}" required>
+                                {{ form.email.errors }}
+                            </div>
+
+                            <div class="btn-group">
+                                                       <a class="btn btn-danger" href="{% url 'panel:teacher-list' %}">بازگشت</a>
+                            <button class="btn btn-success" type="submit">ثبت</button>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+{% endblock %}
+

@@ -15,7 +15,7 @@
                     گروه‌ها</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if active == 'teachers' %}active{% endif %}" href="">مدیریت اساتید</a>
+                <a class="nav-link {% if active == 'teachers' %}active{% endif %}" href="{% url 'panel:teacher-list' %}">مدیریت اساتید</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if active == 'donates' %}active{% endif %}" href="">حمایت‌ها</a>

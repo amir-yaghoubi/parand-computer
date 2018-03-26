@@ -1,0 +1,71 @@
+{% extends 'panel/panel_base.html' %}
+
+{% block title %}لیست اساتید{% endblock %}
+
+{% block header %}
+    {% include 'panel/header.html' with active='teachers' %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container rtl">
+        <div class="my-card">
+            <div class="my-card-header">ایجاد گروه جدید</div>
+            <div class="card-body">
+                <form class="form form-inline" action="{% url 'panel:teacher-add' %}" method="POST">
+                    {% csrf_token %}
+
+                    <div class="form-group form-inline ml-2">
+                        <label for="id_name">نام استاد: </label>
+                        <input class="form-control" type="text" name="name" autofocus="" maxlength="200"
+                               id="id_name" required>
+                    </div>
+
+                    <div class="form-group form-inline ml-2">
+                        <label for="id_email">ایمیل: </label>
+                        <input class="form-control" type="email" name="email" autofocus="" maxlength="254"
+                               id="id_email" required>
+                    </div>
+
+                    <button class="btn btn-success" type="submit">ایجاد</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="my-card">
+            <h2 class="my-card-header">لیست اساتید ثبت شده</h2>
+            {% if teachers %}
+                <div class="table-responsive-sm">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">نام استاد</th>
+                            <th scope="col">ایمیل</th>
+                            <th scope="col">ویرایش</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for t in teachers %}
+                            <tr>
+                                <td>{{ t.name }}</td>
+                                <td>{{ t.email }}</td>
+
+                                <td><a class="btn btn-primary btn-sm" href="{% url 'panel:teacher-edit' t.id %}"
+                                       data-toggle="tooltip" data-placement="bottom" title="ویرایش این استاد">
+                                    <i class="fas fa-edit"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class='group-empty'>
+                    <div class="display-1"><i class="far fa-frown"></i></div>
+                    در حال حاضر هیچ استادی ثبت نشده است.
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+{% endblock %}

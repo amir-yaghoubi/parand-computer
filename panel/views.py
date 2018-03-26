@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
-from django.views.generic import FormView, RedirectView, CreateView, DeleteView, UpdateView
+from django.views.generic import FormView, RedirectView, CreateView, DeleteView, UpdateView, ListView
 from django.views.decorators.http import require_POST
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, redirect
 from telegram_bot.actions import (send_group_status_notification, get_group_link, get_group_name, leave_group)
@@ -180,6 +180,36 @@ class DeleteGroupView(LoginRequiredMixin, DeleteView):
 
         self.object.delete()
         return HttpResponseRedirect(self.get_success_url())
+
+
+class TeacherListView(LoginRequiredMixin, ListView):
+    model = Teacher
+    template_name = 'panel/teacher_list.html'
+    context_object_name = 'teachers'
+
+
+class AddTeacherView(LoginRequiredMixin, CreateView):
+    model = Teacher
+    fields = ['name', 'email']
+    template_name = 'panel/teacher_form.html'
+    success_url = reverse_lazy('panel:teacher-list')
+
+    def get_context_data(self, **kwargs):
+        context = {'page_title': 'ثبت استاد جدید'}
+        context.update(kwargs)
+        return super(AddTeacherView, self).get_context_data(**context)
+
+
+class EditTeacherView(LoginRequiredMixin, UpdateView):
+    model = Teacher
+    template_name = 'panel/teacher_form.html'
+    fields = ['name', 'email']
+    success_url = reverse_lazy('panel:teacher-list')
+
+    def get_context_data(self, **kwargs):
+        context = {'page_title': 'ویرایش استاد'}
+        context.update(kwargs)
+        return super(EditTeacherView, self).get_context_data(**context)
 
 
 def placeholder(request):
