@@ -20,8 +20,12 @@ def search_group_callback(bot, update):
     # ایجاد خروجی مطلوب تلگرام از گروه‌های یافت شده
     for group in groups:
         title = '📌  گروه {0} 👤  استاد {1}'.format(group.title, group.teacher.name)
-        content = InputTextMessageContent('📌 گروه: {0}\n👤 استاد: {1}\n📎 لینک: {2}'
-                                          .format(group.title, group.teacher.name, group.link))
+        msg = '📌 گروه: {0}\n' \
+              '📎 لینک: {1}\n\n' \
+              '👤 استاد: {2}\n' \
+              '✉️ ایمیل استاد: {3}'.format(group.title, group.link, group.teacher.name, group.teacher.email)
+
+        content = InputTextMessageContent(msg)
 
         results.append(InlineQueryResultArticle(group.chat_id, title, input_message_content=content))
 

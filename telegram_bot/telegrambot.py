@@ -22,7 +22,7 @@ def main():
     dp.add_handler(CommandHandler("start", commands.start))
     dp.add_handler(CommandHandler("help", commands.get_help))
     dp.add_handler(CommandHandler("register", commands.register))
-    dp.add_handler(CommandHandler("email", commands.get_group_teacher_email))
+    dp.add_handler(CommandHandler("info", commands.get_group_information))
     dp.add_handler(CallbackQueryHandler(check_group_name, pattern=r'^gp_verify:name$'))
     dp.add_handler(InlineQueryHandler(search_group_callback))
 

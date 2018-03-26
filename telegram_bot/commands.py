@@ -114,7 +114,7 @@ def register(bot, update):
     update.message.reply_text(msg)
 
 
-def get_group_teacher_email(bot, update):
+def get_group_information(bot, update):
     # پاسخ گویی تنها به سوپر گروه ها
     if update.message.chat.type != 'supergroup':
         return
@@ -125,8 +125,10 @@ def get_group_teacher_email(bot, update):
         error_msg = '⛔️گروه شما هنوز ثبت نشده است. ☹️'
         return bot.sendMessage(update.message.chat_id, error_msg)
 
-    msg = '👤 استاد: {0}\n'\
-          '✉️ ایمیل: {1}'.format(group.teacher.name, group.teacher.email)
+    msg = '📌 گروه: {0}\n'\
+          '📎 لینک: {1}\n\n'\
+          '👤 استاد: {2}\n'\
+          '✉️ ایمیل استاد: {3}'.format(group.title,group.link, group.teacher.name, group.teacher.email)
 
     bot.sendMessage(update.message.chat_id, msg)
 
