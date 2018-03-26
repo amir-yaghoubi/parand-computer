@@ -114,6 +114,23 @@ def register(bot, update):
     update.message.reply_text(msg)
 
 
+def get_group_teacher_email(bot, update):
+    # پاسخ گویی تنها به سوپر گروه ها
+    if update.message.chat.type != 'supergroup':
+        return
+
+    group = _hit_database(Group, update.message.chat_id)
+
+    if group is None:
+        error_msg = '⛔️گروه شما هنوز ثبت نشده است. ☹️'
+        return bot.sendMessage(update.message.chat_id, error_msg)
+
+    msg = '👤 استاد: {0}\n'\
+          '✉️ ایمیل: {1}'.format(group.teacher.name, group.teacher.email)
+
+    bot.sendMessage(update.message.chat_id, msg)
+
+
 def start(bot, update):
     logger.info('start commands from. chat_id: {0}, chat_type: {1}'.format(
                     update.message.chat.id, update.message.chat.type))
