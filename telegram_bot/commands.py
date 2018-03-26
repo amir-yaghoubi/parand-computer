@@ -1,49 +1,11 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
+from .utils import get_model_object, get_group_admins, persian_formatted_date
 from django.shortcuts import reverse
-from django.core.exceptions import ObjectDoesNotExist
-from .app_settings import BOT_ID
 from web.models import PendingGroup, Group
-from jdatetime import GregorianToJalali
+from .decorators import required_verify
 import logging
 # set logger
 logger = logging.getLogger(__name__)
-
-
-def _group_admins(bot, chat_id):
-    """get bot, chat_id
-    return: tuple (user Object, user object) => (our_bot, creatorUser)"""
-    # تمام ادمین‌های گروه رو دریافت میکنیم
-    admins = bot.getChatAdministrators(chat_id)
-
-    our_bot = None
-    group_creator = None
-
-    # به ازای هر ادمین موجود در گروه
-    for admin in admins:
-        # اگر این ادمین ما بودیم
-        if admin.user.id == BOT_ID:
-            # یعنی ربات ما دسترسی ادمین داشته و می‌توانیم ادامه دهیم
-            our_bot = admin
-        # اگر ادمین اصلی بود
-        if admin.status == 'creator':
-            group_creator = admin
-
-    return our_bot, group_creator
-
-
-def _hit_database(model, chat_id):
-    """
-    check if chat_id is in the database or note
-    :param model: Model (Group, PendingGroup)
-    :param chat_id: Int
-    :return: Model Object or None on failure.
-    """
-    result = None
-    try:
-        result = model.objects.get(chat_id=chat_id)
-    except ObjectDoesNotExist:
-        pass
-    return result
 
 
 def register(bot, update):
@@ -53,15 +15,10 @@ def register(bot, update):
         return
 
     # بررسی وجود گروه در لیست اصلی سایت
-    main_group = _hit_database(Group, update.message.chat_id)
+    main_group = get_model_object(Group, update.message.chat_id)
     # در صورتی که در لیست اصلی سایت موجود باشه پیغام مربوطه ارسال میکنیم و روند ثبت گروه جدید رو متوقف میکنیم
     if main_group is not None:
-        miladi_date = main_group.created_date
-        persian_date = GregorianToJalali(miladi_date.year, miladi_date.month, miladi_date.day)
-
-        persian_date = '{year}/{month}/{day}'.format(year=persian_date.jyear,
-                                                     month=persian_date.jmonth,
-                                                     day=persian_date.jday)
+        persian_date = persian_formatted_date(main_group.created_date)
 
         msg = '✅ گروه شما در سایت ثبت شده است. ✅\n' \
               'تاریخ ثبت: {0}'.format(persian_date)
@@ -70,7 +27,7 @@ def register(bot, update):
 
     # بررسی وجود گروه در لیست انتظار سایت
     # در صورتی که گروه در لیست انتظار سایت قرار داشت پیغام مربوطه را ارسال میکنیم و از ادامه فرایند ثبت باز میگردیم.
-    pending_group = _hit_database(PendingGroup, update.message.chat_id)
+    pending_group = get_model_object(PendingGroup, update.message.chat_id)
     if pending_group is not None:
         msg = '⏰ در انتظار تایید ⏰\n'\
               'گروه شما در انتظار تایید توسط ادمین‌ سایت می‌باشد.\n'
@@ -81,7 +38,7 @@ def register(bot, update):
     # بررسی دسترسی ادمین به بات
     # ثبت گروه در لیست انتظار
 
-    our_bot, group_creator = _group_admins(bot, update.message.chat_id)
+    our_bot, group_creator = get_group_admins(bot, update.message.chat_id)
     # اگر بات ما دسترسی ادمین نداشت پیغام خطا و توقف فرایند
     if our_bot is None:
         msg = '⛔️⛔️ خطا ⛔️⛔️\n'\
@@ -114,21 +71,12 @@ def register(bot, update):
     update.message.reply_text(msg)
 
 
-def get_group_information(bot, update):
-    # پاسخ گویی تنها به سوپر گروه ها
-    if update.message.chat.type != 'supergroup':
-        return
-
-    group = _hit_database(Group, update.message.chat_id)
-
-    if group is None:
-        error_msg = '⛔️گروه شما هنوز ثبت نشده است. ☹️'
-        return bot.sendMessage(update.message.chat_id, error_msg)
-
+@required_verify
+def get_group_information(bot, update, group):
     msg = '📌 گروه: {0}\n'\
           '📎 لینک: {1}\n\n'\
           '👤 استاد: {2}\n'\
-          '✉️ ایمیل استاد: {3}'.format(group.title,group.link, group.teacher.name, group.teacher.email)
+          '✉️ ایمیل استاد: {3}'.format(group.title, group.link, group.teacher.name, group.teacher.email)
 
     bot.sendMessage(update.message.chat_id, msg)
 
@@ -159,5 +107,5 @@ def get_help(bot, update):
     bot.sendMessage(update.message.chat_id, text=help_text, reply_markup=keyboard_markup)
 
 
-def error(bot, update, error):
-    logger.warning('Update "%s" caused error "%s"', update, error)
+def error(bot, update, err):
+    logger.warning('Update "%s" caused error "%s"', update, err)
