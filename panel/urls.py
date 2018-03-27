@@ -14,7 +14,7 @@ urlpatterns = [
 
     path('group/<groupSlug:slug>/edit/', views.EditGroupView.as_view(), name='group-edit'),
     path('group/<groupSlug:slug>/toggle-active/', views.group_toggle_active, name='group-toggle-active'),
-    path('group/<groupSlug:slug>/send-message/', views.placeholder, name='group-send-message'),
+    path('group/<groupSlug:slug>/send-message/', views.SendMessageView.as_view(), name='group-send-message'),
     path('group/<groupSlug:slug>/invoke-link/', views.group_invoke_link, name='group-invoke-link'),
     path('group/<groupSlug:slug>/delete/', views.DeleteGroupView.as_view(), name='group-delete'),
 

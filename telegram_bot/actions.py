@@ -88,3 +88,11 @@ def leave_group(chat_id, ignore_message_error=False):
 
     bot.leave_chat(chat_id)
 
+
+@exception_raiser
+def send_message(chat_id, msg):
+    if len(msg) > 4096:
+        raise ValueError
+
+    bot = Bot(app_settings.BOT_TOKEN)
+    bot.sendMessage(chat_id, msg)

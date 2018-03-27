@@ -7,9 +7,9 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, RedirectView, CreateView, DeleteView, UpdateView, ListView
 from django.views.decorators.http import require_POST
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, redirect
-from telegram_bot.actions import (send_group_status_notification, get_group_link, get_group_name, leave_group)
+from telegram_bot.actions import (send_group_status_notification, get_group_link, get_group_name, leave_group, send_message)
 from web.models import PendingGroup, Group, Teacher
-from .forms import ApproveGroupForm
+from .forms import ApproveGroupForm, SendMessageForm
 from datetime import datetime
 
 
@@ -212,5 +212,27 @@ class EditTeacherView(LoginRequiredMixin, UpdateView):
         return super(EditTeacherView, self).get_context_data(**context)
 
 
-def placeholder(request):
-    pass
+class SendMessageView(LoginRequiredMixin, FormView):
+    template_name = 'panel/send_message_form.html'
+    form_class = SendMessageForm
+    success_url = reverse_lazy('panel:index')
+    group = None
+
+    def get(self, request, *args, **kwargs):
+        slug = kwargs['slug']
+        self.group = get_object_or_404(Group, slug=slug)
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        slug = kwargs['slug']
+        self.group = get_object_or_404(Group, slug=slug)
+        return super().post(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        kwargs['title'] = self.group.title
+        return kwargs
+
+    def form_valid(self, form):
+        msg = form.cleaned_data['text_message']
+        send_message(self.group.chat_id, msg)
+        return super().form_valid(form)
