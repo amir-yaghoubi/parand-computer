@@ -1,6 +1,6 @@
 @import "../utils"
 
-$header-bottom: 240px
+$header-bottom: 96px
 
 .header
   background: url('../assets/header.jpg')
@@ -11,20 +11,18 @@ $header-bottom: 240px
 
   padding-bottom: $header-bottom + 4px
   height: 100%
-  min-height: 500px
+
 
 .header-text
   direction: rtl
   text-align: right
   color: $text-color
   font-family: $koodak-font
-  padding-top: $textPadding * 3
-  padding-right: $textPadding * 3
-  padding-left: $textPadding * 3
+  padding: $textPadding * 3
+
 
   @media screen and (max-width: 576px)
-    padding-left: $textPadding
-    padding-right: $textPadding
+    padding: $textPadding * 2 $textPadding
     h4
       font-size: 1.2rem
   h1
