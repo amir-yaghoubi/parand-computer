@@ -12,27 +12,37 @@
         <div class="my-card">
             <div class="my-card-header">لیست اساتید</div>
             <div class="card-body">
-                <table class="table group-table">
-                    <thead>
-                    <tr>
-                        <th scope="col"><i class='fas fa-graduation-cap'></i>نام استاد</th>
-                        <th scope="col">
-                            <i class="fas fa-envelope"></i>ایمیل
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for t in teachers %}
+                {% if teachers %}
+                    <table class="table group-table">
+                        <thead>
                         <tr>
-                            <td>{{ t }}</td>
-                            <td>{{ t.email }}</td>
+                            <th scope="col"><i class='fas fa-graduation-cap'></i>نام استاد</th>
+                            <th scope="col">
+                                <i class="fas fa-envelope"></i>ایمیل
+                            </th>
                         </tr>
+                        </thead>
+                        <tbody>
+                        {% for t in teachers %}
+                            <tr>
+                                <td>{{ t }}</td>
+                                <td>{{ t.email }}</td>
+                            </tr>
 
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                {% else %}
+                    <div class='group-empty'>
+                        <div class="display-1"><i class="far fa-frown"></i></div>
+                     متاسفانه هنوز استادی اضافه نشده است.
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
+
+
 
 {% endblock %}
