@@ -1,0 +1,38 @@
+{% extends 'web/base.html' %}
+{% block title %}لیست اساتید{% endblock %}
+
+{% block header %}
+    {% include 'web/header.html' with active='None' %}
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+        <div class="my-card">
+            <div class="my-card-header">لیست اساتید</div>
+            <div class="card-body">
+                <table class="table group-table">
+                    <thead>
+                    <tr>
+                        <th scope="col"><i class='fas fa-edit'></i>نام استاد</th>
+                        <th scope="col">
+                            <i class='fas fa-graduation-cap'></i>ایمیل
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for t in teachers %}
+                        <tr>
+                            <td>{{ t }}</td>
+                            <td>{{ t.email }}</td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

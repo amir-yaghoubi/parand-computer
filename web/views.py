@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_GET
 from django.views.generic import ListView
-
-from telegram_bot.actions import get_group_link
-from .models import Group
+from .models import Group, Teacher
 
 
 class IndexPage(ListView):
@@ -36,6 +34,12 @@ class IndexPage(ListView):
         # گروه بندی بر گروه‌ها و تغییر کانتکست
         context['groups'] = self._group_by_category(context['groups'])
         return context
+
+
+class TeacherListView(ListView):
+    template_name = 'web/teachers.html'
+    context_object_name = 'teachers'
+    model = Teacher
 
 
 def about(request):
