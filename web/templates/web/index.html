@@ -1,68 +1,11 @@
-<!DOCTYPE html>
-<html lang="fa">
-{% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
-    <link rel='stylesheet' href="{% static 'css/bootstrap-rtl.min.css' %}" />
-    <link rel='stylesheet' href="{% static "web/css/piaucomputer.min.css" %}" />
-    <title>کامپیوتر پرند</title>
-</head>
+{% extends 'web/base.html' %}
+{% block title %}پرند کامپیوتر{% endblock %}
 
-<body>
-<!-- header -->
-<header class='header'>
-    <nav class="navbar navbar-expand-sm navbar-dark rtl">
-        <a class="navbar-brand" href="{% url 'web:index' %}">پرند کامپیوتر</a>
+{% block header %}
+{% include 'web/header.html' with active='None' %}
+{% endblock %}
 
-        <!-- hamburger button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
-                aria-controls="navbarToggle"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- end of hamburger button -->
-
-        <div class="collapse navbar-collapse" id="navbarToggle">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">لیست اساتید</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#github-section">راهنما</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#donate-section">درباره ما</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav navbar-right">
-                <li class="nav-item">
-                    {% if user.is_authenticated %}
-                        <a class="btn btn-theme" href="{% url 'panel:index' %}">مدیریت</a>
-                    {% else %}
-                        <a class="btn btn-theme" href="{% url 'panel:login' %}">ورود ادمین</a>
-                    {% endif %}
-                </li>
-            </ul>
-
-        </div>
-
-    </nav>
-
-
-    <div class='header-text'>
-        <h1>ترم تحصیلی 96-97</h1>
-        <h4>برای اضافه شدن گروه به سایت از <a target="_blank" href="https://telegram.me/parand_computer_bot">ربات تلگرامی</a> ما استفاده کنید.</h4>
-        <h4>{{ title }}</h4>
-    </div>
-</header>
-
-<!-- end of header -->
-
-<main class='rtl'>
+{% block content %}
     <div class="group-background">
         <div class="container">
             <div class="row">
@@ -147,84 +90,6 @@
 
     </section>
 
+{% endblock %}
 
-    </div>
 
-</main>
-
-<footer class="rtl">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-3">
-                <h5>صفحات</h5>
-                <ul class="list-unstyled text-small">
-                    <li>
-                        <a class="text-muted" href="#">خانه</a>
-                    </li>
-                    <li>
-                        <a class="text-muted" href="#">لیست اساتید</a>
-                    </li>
-                    <li>
-                        <a class="text-muted" href="#">راهنما</a>
-                    </li>
-                    <li>
-                        <a class="text-muted" href="#">درباره ما</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <h5>لینک‌های مرتبط</h5>
-                <ul class="list-unstyled text-small">
-                    <li>
-                        <a class="text-muted" href="#">سایت رسمی دانشگاه</a>
-                    </li>
-                    <li>
-                        <a class="text-muted" href="#">پرتال دانشجویی</a>
-                    </li>
-                    <li>
-                        <a class="text-muted" href="#">کانال تلگرام دانشکده</a>
-                    </li>
-                    <li>
-                        <a class="text-muted" href="#">کانال تلگرام ما</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <h5>ارتباط با ما</h5>
-                <ul class="list-unstyled text-small">
-                    <li>
-                        <a class="text-muted iconed" href="#"><i class="fab fa-telegram"></i>تلگرام</a>
-                    </li>
-                    <li>
-                        <a class="text-muted iconed" href="#"><i class="fab fa-twitter"></i>توییتر</a>
-                    </li>
-                    <li>
-                        <a class="text-muted iconed" href="#"><i class="fas fa-envelope"></i>ایمیل</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-1">
-            </div>
-        </div>
-
-        <div id="license">طراحی شده توسط امیرحسین یعقوبی، هرگونه کپی برداری کاملا مجاز می‌باشد. (به جامعه متن باز خوش
-            آمدید!!!)
-        </div>
-        <!-- text -->
-    </div>
-
-</footer>
-
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
