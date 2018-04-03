@@ -108,6 +108,6 @@ koala-config.json
 migrations/
 
 # remove settings.py (avoid expose our api keys to public)
-#/parand/settings.py
+/parand/settings.py
 
 .idea/
