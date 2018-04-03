@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,22 +21,25 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '<YOUR-SECRET-KEY>'
+SECRET_KEY = '<YOUR-SECRET>'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '192.168.1.2']
+ALLOWED_HOSTS = ['*', ]
+
 
 # Telegram BOT
 # توجه داشته باشید که اتوکن را باید از
 # @BotFather
+
 TELEGRAM_BOT_TOKEN = '<YOUR-BOT-TOKEN>'
 
 # این قسمت مربوط به آیدی ربات تلگرام شما می‌باشد و از آن برای تشخیص ربات در گروه‌ها استفاده می‌شود
-TELEGRAM_BOT_ID = -1000000000
+TELEGRAM_BOT_ID = -1
 
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -44,9 +48,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'telegram_bot',
+    'django.contrib.humanize',
     'django_telegrambot',
+    'telegram_bot',
     'web',
+    'panel',
     'donate'
 ]
 
@@ -58,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'panel.middleware.TelegramErrorMiddleware',  # our middle ware to handle custom exceptions
 ]
 
 ROOT_URLCONF = 'parand.urls'
@@ -81,11 +88,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'parand.wsgi.application'
 
 DJANGO_TELEGRAMBOT = {
-    'MODE': 'POLLING',
+    'MODE': 'WEBHOOK',
+    'WEBHOOK_SITE': '<YOUR_WEEBHOOK_URL>',
+    'WEBHOOK_PREFIX': '/bot',
+    'STRICT_INIT': True,
     'BOTS': [
         {
            'TOKEN': TELEGRAM_BOT_TOKEN,
-           'POLL_INTERVAL': 0.2,
+            'ALLOWED_UPDATES': [],
         },
     ],
 }
@@ -119,6 +129,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Url for redirects if user is not logged it
+LOGIN_URL = reverse_lazy('panel:login')
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
