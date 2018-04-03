@@ -2,7 +2,7 @@
 {% block title %}پرند کامپیوتر{% endblock %}
 
 {% block header %}
-{% include 'web/header.html' with active='None' %}
+    {% include 'web/header.html' with active='None' %}
 {% endblock %}
 
 {% block content %}
@@ -26,19 +26,20 @@
                         </div>
 
                         <!-- fist group section -->
-                        <div class="my-card-header">گروه‌های دروس آزمایشگاه</div>
-                        <div class="card-body">
-                            {% include 'web/_group_table.html' with group=groups.azmayeshgah %}
-                        </div>
-
-                        <!-- second group section -->
                         <div class="my-card-header">گروه‌های دروس تخصصی</div>
                         <div class="card-body">
                             {% include 'web/_group_table.html' with group=groups.takhasosi %}
                         </div>
 
+
+                        <!-- second group section -->
+                        <div class="my-card-header">گروه‌های دروس آزمایشگاه</div>
+                        <div class="card-body">
+                            {% include 'web/_group_table.html' with group=groups.azmayeshgah %}
+                        </div>
+
                         <!-- other group section -->
-                        <div class="my-card-header">دیگر گروه‌های درسی</div>
+                        <div class="my-card-header">گروه‌های دروس عمومی</div>
                         <div class="card-body">
                             {% include 'web/_group_table.html' with group=groups.other %}
                         </div>
