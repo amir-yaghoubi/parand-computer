@@ -1,2 +1,4 @@
 # parand-computer
-website to manage piau computer telegram groups
+<h1 dir="rtl">کامپیوتر پرند</h1>
+<p dir="rtl">وب‌سایتی برای مدیریت گروه‌های درسی دانشگاه آزاد اسلامی واحد پرند</p>
+<h3 dir="rtl">به دلیل فیلتر تلگرام فعلا این سایت توسعه پیدا نمی‌کند.</h2>
