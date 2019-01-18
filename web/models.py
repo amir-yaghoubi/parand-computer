@@ -24,26 +24,21 @@ class Group(models.Model):
         ('O', 'عمومی'),
     )
 
-    title = models.CharField(
-        max_length=200, verbose_name='نام گروه', null=False)
-    slug = models.CharField(max_length=200, unique=True, default='no-slug')
+    title = models.CharField(max_length=200, verbose_name='نام گروه', null=False)
+    slug = models.CharField(max_length=300, unique=True, default='no-slug')
 
     chat_id = models.IntegerField(verbose_name='شناسه گروه', primary_key=True)
     link = models.URLField(verbose_name='لینک گروه')
 
     admin_id = models.IntegerField(verbose_name='شناسه ادمین', null=True)
-    admin_username = models.CharField(
-        verbose_name='نام کاربری ادمین', max_length=50,  default="تعریف نشده", null=True)
+    admin_username = models.CharField(verbose_name='نام کاربری ادمین', max_length=50,  default="تعریف نشده", null=True)
 
-    teacher = models.ForeignKey(
-        Teacher, on_delete='CASCADE', verbose_name='نام استاد')
-    category = models.CharField(
-        verbose_name='نوع گروه', max_length=1, choices=category_options)
+    teacher = models.ForeignKey(Teacher, on_delete='CASCADE', verbose_name='نام استاد')
+    category = models.CharField(verbose_name='نوع گروه', max_length=1, choices=category_options)
 
     active = models.BooleanField(verbose_name='نمایش در سایت', default=True)
 
-    created_date = models.DateTimeField(
-        verbose_name='تاریخ ایجاد', auto_now_add=True)
+    created_date = models.DateTimeField(verbose_name='تاریخ ایجاد', auto_now_add=True)
 
     def _generate_unique_slug(self):
         slug = GroupSlug.slug_it(title=self.title, teacher=str(self.teacher))
@@ -74,16 +69,12 @@ class Group(models.Model):
 
 class PendingGroup(models.Model):
     chat_id = models.IntegerField(verbose_name='شناسه گروه', primary_key=True)
-    slug = models.CharField(max_length=200, unique=True)
-    title = models.CharField(
-        max_length=200, verbose_name='نام گروه', null=False)
+    slug = models.CharField(max_length=300, unique=True)
+    title = models.CharField(max_length=200, verbose_name='نام گروه', null=False)
     admin_id = models.IntegerField(verbose_name='شناسه ادمین', null=True)
-    admin_username = models.CharField(
-        verbose_name='نام کاربری ادمین', max_length=50,  default="تعریف نشده", null=True)
-    created_date = models.DateTimeField(
-        verbose_name='تاریخ ایجاد', auto_now_add=True)
-    update_date = models.DateTimeField(
-        verbose_name='آخرین بروزرسانی', auto_now_add=True)
+    admin_username = models.CharField(verbose_name='نام کاربری ادمین', max_length=50,  default="تعریف نشده", null=True)
+    created_date = models.DateTimeField(verbose_name='تاریخ ایجاد', auto_now_add=True)
+    update_date = models.DateTimeField(verbose_name='آخرین بروزرسانی', auto_now_add=True)
 
     def _generate_unique_slug(self):
         slug = NormalSlug.slug_it(title=self.title)
