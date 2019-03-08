@@ -45,19 +45,19 @@ main
       margin-top: 12px
 
 
-.group-table 
+.group-table
   thead > tr > th
     border-top: none
     border-bottom: none
     background: lighten($theme-color, 65%)
-    i 
+    i
       // padding for table icons
       padding-left: 4px
-  
+
   tbody > tr > td
     border-top: none
     border-bottom: 2px $secondary-text dashed
-  
+
   tbody > tr:hover
     background: lighten($theme-color, 70%)
 
@@ -82,7 +82,7 @@ table tr th
     text-align-last: unset
     text-align: center
     line-height: 1
-  
+
 #donate-section
   padding: 48px $textPadding * 3
   background-color: #FFECB3
@@ -130,3 +130,24 @@ footer
   font-size: 0.9em
   color: lighten($theme-color, 65%)
   padding: 10px 0px
+
+#hosted-by
+  direction: rtl
+  text-align: center
+  color: lighten($theme-color, 65%)
+  font-family: $koodak-font
+  padding-bottom: $textPadding
+
+  a
+    margin-left: 2px
+    margin-right: 2px
+    padding-left: 4px
+    padding-right: 4px
+    color: $text-color
+    text-decoration: none
+    border-bottom: 2px $text-color dashed
+
+    +transition-fix(background, 0.3)
+
+    &:hover
+      background: lighten($theme-color, 5%)
